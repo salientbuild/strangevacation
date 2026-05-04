@@ -997,7 +997,7 @@
         <!-- Navigation -->
         <div class="quiz-nav">
           <button class="nav-back" id="navBack">← back</button>
-          <button class="btn btn-teal" id="navNext">Continue<span class="submit-spinner" id="submitSpinner"></span></button>
+          <button class="btn btn-teal" id="navNext"><span id="navNextLabel">Continue</span><span class="submit-spinner" id="submitSpinner"></span></button>
         </div>
         <div class="submit-error" id="submitError">Something went wrong — your answers are safe. Please try again.</div>
       </div>
@@ -1198,7 +1198,7 @@
       $('progressNum').textContent   = `${idx + 1} / ${TOTAL_Q}`;
 
       $('navBack').style.visibility = idx === 0 ? 'hidden' : 'visible';
-      $('navNext').textContent = idx === TOTAL_Q - 1 ? 'Submit' : 'Continue';
+      $('navNextLabel').textContent = idx === TOTAL_Q - 1 ? 'Submit' : 'Continue';
 
       updateSectionLabel(idx);
     }
@@ -1595,7 +1595,7 @@
       buildChips('chipsSeatmate',    SEATMATE_TRAITS,selectedSeatmate,     8, 'errSeatmate');
 
       /* Clear errors on type */
-      ['inputName','inputAskMe'].forEach(id => {
+      ['inputName'].forEach(id => {
         $(id).addEventListener('input', () => $('err'+id.replace('input','')).classList.remove('show'));
       });
       $('inputEmail').addEventListener('input', () => $('errEmail').classList.remove('show'));
