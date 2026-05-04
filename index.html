@@ -1317,45 +1317,33 @@
          });
     ═══════════════════════════════════════════════════════ */
     async function submitQuiz () {
-      const submission = {
-        id:                      crypto.randomUUID(),
-        createdAt:               new Date().toISOString(),
-        group:                   getGroupName(),
-        name:                    $('inputName').value.trim(),
-        email:                   $('inputEmail').value.trim(),
-        availableDates:          [...selectedDates],
-        foodDrinkPreferences:    $('inputFood').value.trim(),
-        selectedInterests:       [...selectedInterests],
-        desiredMoreOf:           [...selectedMoreOf],
-        inkblotChoice:           selectedInkblot || '',
-        fruitChoice:             selectedFruit || '',
-        dinnerStyle:             [...selectedDinnerStyle],
-        preferredSeatmateTraits: [...selectedSeatmate],
-        askMeAbout:              '',
-        shockingFact:            $('inputShocking').value.trim(),
-        cocktailChoice:          selectedCocktail || '',
-        networkReferral:         $('inputReferral').value.trim(),
-        generatedReading:        generateReading({
-          selectedInterests,
-          selectedMoreOf,
-          dinnerStyle: selectedDinnerStyle,
-          shockingFact: $('inputShocking').value.trim()
-        }),
-        conversationSpark:       generateSpark({
-          selectedInterests,
-          shockingFact: $('inputShocking').value.trim()
-        })
-      };
-
       const btn     = $('navNext');
       const spinner = $('submitSpinner');
       const errEl   = $('submitError');
 
-      btn.disabled             = true;
-      spinner.style.display    = 'inline-block';
+      btn.disabled          = true;
+      spinner.style.display = 'inline-block';
       errEl.classList.remove('show');
 
       try {
+        const submission = {
+          createdAt:               new Date().toISOString(),
+          group:                   getGroupName(),
+          name:                    $('inputName').value.trim(),
+          email:                   $('inputEmail').value.trim(),
+          availableDates:          [...selectedDates],
+          foodDrinkPreferences:    $('inputFood').value.trim(),
+          selectedInterests:       [...selectedInterests],
+          desiredMoreOf:           [...selectedMoreOf],
+          inkblotChoice:           selectedInkblot || '',
+          fruitChoice:             selectedFruit || '',
+          dinnerStyle:             [...selectedDinnerStyle],
+          preferredSeatmateTraits: [...selectedSeatmate],
+          shockingFact:            $('inputShocking').value.trim(),
+          cocktailChoice:          selectedCocktail || '',
+          networkReferral:         $('inputReferral').value.trim(),
+        };
+
         const res = await fetch('/api/submit', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
