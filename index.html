@@ -727,6 +727,28 @@
       .app { margin-top: -12rem; }
     }
 
+    /* Submit loading / error */
+    .submit-spinner {
+      display: none;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .submit-error {
+      font-size: 0.78rem;
+      color: var(--rust);
+      font-style: italic;
+      margin-top: 0.75rem;
+      text-align: right;
+      display: none;
+    }
+    .submit-error.show { display: block; }
+
     @media (max-width: 480px) {
       .invite-card, .quiz-card, .thanks-card { padding: 1.8rem 1.3rem 1.5rem; }
       .admin-stats { grid-template-columns: 1fr 1fr; }
@@ -975,8 +997,9 @@
         <!-- Navigation -->
         <div class="quiz-nav">
           <button class="nav-back" id="navBack">← back</button>
-          <button class="btn btn-teal" id="navNext">Continue</button>
+          <button class="btn btn-teal" id="navNext">Continue<span class="submit-spinner" id="submitSpinner"></span></button>
         </div>
+        <div class="submit-error" id="submitError">Something went wrong — your answers are safe. Please try again.</div>
       </div>
     </section>
 
@@ -1293,7 +1316,7 @@
            body: JSON.stringify(submission)
          });
     ═══════════════════════════════════════════════════════ */
-    function submitQuiz () {
+    async function submitQuiz () {
       const submission = {
         id:                      crypto.randomUUID(),
         createdAt:               new Date().toISOString(),
@@ -1324,12 +1347,29 @@
         })
       };
 
-      /* ── localStorage (replace with fetch for backend) ── */
-      const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      all.push(submission);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+      const btn     = $('navNext');
+      const spinner = $('submitSpinner');
+      const errEl   = $('submitError');
 
-      showScreen('screenThanks');
+      btn.disabled             = true;
+      spinner.style.display    = 'inline-block';
+      errEl.classList.remove('show');
+
+      try {
+        const res = await fetch('/api/submit', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(submission),
+        });
+
+        if (!res.ok) throw new Error('non-2xx');
+
+        showScreen('screenThanks');
+      } catch {
+        btn.disabled          = false;
+        spinner.style.display = 'none';
+        errEl.classList.add('show');
+      }
     }
 
     /* ═══════════════════════════════════════════════════════
