@@ -489,7 +489,7 @@
       background-size: 11px 9px;
     }
     .img-pick-grid--3col {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 0.5rem;
     }
 
@@ -723,6 +723,10 @@
     /* ═══════════════════════════════════════════
        RESPONSIVE
     ═══════════════════════════════════════════ */
+    @media (min-width: 768px) {
+      .app { margin-top: -12rem; }
+    }
+
     @media (max-width: 480px) {
       .invite-card, .quiz-card, .thanks-card { padding: 1.8rem 1.3rem 1.5rem; }
       .admin-stats { grid-template-columns: 1fr 1fr; }
@@ -871,16 +875,16 @@
           <p class="q-hint">The one that pulls you first.</p>
           <div class="img-pick-grid" id="inkblotGrid">
             <div class="img-pick-item" data-inkblot="violet" onclick="selectInkblot(this)">
-              <img src="hero.png" alt="Violet inkblot" />
+              <img src="orbit_design_watercolor_rorschach_inkblot_deep_violet_and_met_ebf15a36-31c3-4085-938e-947c8778a6b8_1.png" alt="Violet inkblot" />
             </div>
             <div class="img-pick-item" data-inkblot="teal" onclick="selectInkblot(this)">
-              <img src="hero.png" alt="Teal inkblot" />
+              <img src="orbit_design_watercolor_rorschach_inkblot_oceanic_blues_and_g_b0f55737-0cc8-4cb9-8876-1a57fd4252a4_0.png" alt="Teal inkblot" />
             </div>
             <div class="img-pick-item" data-inkblot="peach" onclick="selectInkblot(this)">
-              <img src="hero.png" alt="Peach inkblot" />
+              <img src="orbit_design_watercolor_rorschach_inkblot_soft_peach_and_hori_e14829ce-787a-4247-a15b-90f605939919_2.png" alt="Peach inkblot" />
             </div>
             <div class="img-pick-item" data-inkblot="blush" onclick="selectInkblot(this)">
-              <img src="hero.png" alt="Blush inkblot" />
+              <img src="orbit_design_watercolor_rorschach_inkblot_blush_pink_coral_an_6ff439cc-00cd-44b1-b925-80f9c96981ca_3.png" alt="Blush inkblot" />
             </div>
           </div>
           <div class="f-err-img" id="errInkblot">Choose the one that speaks to you.</div>
