@@ -1,0 +1,1575 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Les Vacances Étranges</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       LES VACANCES ÉTRANGES — TOKENS
+    ═══════════════════════════════════════════ */
+    :root {
+      --pool:        #7ec8c8;   /* pool-water teal */
+      --pool-deep:   #4a9fa5;
+      --pool-pale:   #c2e8e8;
+      --citrus:      #f0c040;   /* floating orange/yellow */
+      --citrus-deep: #e08020;
+      --linen:       #f7f3ec;   /* warm off-white */
+      --linen-dark:  #ede8df;
+      --ink:         #1c1a15;
+      --ink-mid:     #4a4237;
+      --ink-soft:    #9a8f82;
+      --rust:        #c4603a;
+      --sage:        #6b8c7a;
+      --cream:       #fdf9f3;
+
+      --script: 'Great Vibes', cursive;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+
+      --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    body {
+      background: var(--linen);
+      color: var(--ink);
+      font-family: var(--serif);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO IMAGE
+       Replace --hero-src with your image path.
+       Recommended: 1200×600px JPG or WebP.
+    ═══════════════════════════════════════════ */
+    /* ── Hero image: full bleed, card overlaps bottom ── */
+    .hero-wrap {
+      position: relative;
+      width: 100%;
+      z-index: 5;
+      flex-shrink: 0;
+    }
+    .hero-wrap img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    /* linen fade at bottom so card sits flush */
+    .hero-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(to bottom, transparent, var(--linen));
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════
+       BODY
+    ═══════════════════════════════════════════ */
+
+    /* ═══════════════════════════════════════════
+       MAIN LAYOUT
+    ═══════════════════════════════════════════ */
+    .app {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 1.25rem 5rem;
+      margin-top: -5rem; /* pull first card up over image fade */
+    }
+
+    /* Brand header — sits below hero image */
+    .brand-header {
+      text-align: center;
+      padding: 1.8rem 1rem 0.5rem;
+      color: var(--ink);
+    }
+    .brand-script {
+      font-family: var(--script);
+      font-size: clamp(3rem, 12vw, 5.5rem);
+      line-height: 1;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 0.25rem;
+      animation: scriptFade 1.2s ease forwards;
+    }
+    .brand-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      font-weight: 300;
+      animation: scriptFade 1.2s 0.3s ease both;
+    }
+    @keyframes scriptFade {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════
+       SCREENS
+    ═══════════════════════════════════════════ */
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 560px;
+    }
+    .screen.active {
+      display: block;
+      animation: riseIn 0.65s var(--ease) forwards;
+    }
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════
+       INVITATION CARD (Screen 0)
+    ═══════════════════════════════════════════ */
+    .invite-card {
+      background: var(--cream);
+      border: 1px solid rgba(180,160,130,0.3);
+      box-shadow: 0 12px 48px rgba(28,26,21,0.12), 0 2px 8px rgba(28,26,21,0.06);
+      padding: 2.5rem 2rem 2rem;
+      margin-top: 2rem;
+      position: relative;
+    }
+    /* decorative corner rule */
+    .invite-card::before {
+      content: '';
+      position: absolute;
+      top: 10px; left: 10px; right: 10px; bottom: 10px;
+      border: 0.5px solid rgba(180,160,130,0.2);
+      pointer-events: none;
+    }
+
+    .invite-ornament {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .invite-ornament svg { width: 48px; height: 48px; }
+
+    .invite-salutation {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink-mid);
+      margin-bottom: 1.2rem;
+      line-height: 1.6;
+    }
+    .invite-salutation .group-name {
+      font-style: italic;
+      color: var(--rust);
+    }
+    .invite-body {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--ink-mid);
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+    .invite-sign {
+      font-family: var(--script);
+      font-size: 2rem;
+      color: var(--ink);
+      line-height: 1;
+      margin-top: 0.5rem;
+    }
+    .invite-divider {
+      border: none;
+      border-top: 0.5px solid rgba(155,143,130,0.35);
+      margin: 1.8rem 0;
+    }
+    .invite-cta {
+      text-align: center;
+    }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+    ═══════════════════════════════════════════ */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2.4rem;
+      background: transparent;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .btn:hover { background: var(--ink); color: var(--linen); }
+
+    .btn-teal {
+      border-color: var(--pool-deep);
+      color: var(--pool-deep);
+    }
+    .btn-teal:hover { background: var(--pool-deep); color: white; }
+
+    .btn-ghost {
+      border-color: rgba(155,143,130,0.5);
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+      padding: 0.6rem 1.6rem;
+    }
+    .btn-ghost:hover { background: var(--ink-soft); color: var(--linen); border-color: var(--ink-soft); }
+
+    .btn-danger { border-color: #c0392b; color: #c0392b; }
+    .btn-danger:hover { background: #c0392b; color: white; }
+
+    /* ═══════════════════════════════════════════
+       QUIZ SCREEN
+    ═══════════════════════════════════════════ */
+    .quiz-card {
+      background: var(--cream);
+      border: 1px solid rgba(180,160,130,0.25);
+      box-shadow: 0 10px 40px rgba(28,26,21,0.1);
+      padding: 2.2rem 2rem 2rem;
+      margin-top: 1.5rem;
+      position: relative;
+    }
+
+    /* Section label above card */
+    .quiz-section-label {
+      text-align: center;
+      font-family: var(--script);
+      font-size: 1.9rem;
+      color: var(--ink);
+      margin-top: 1.5rem;
+      margin-bottom: -0.5rem;
+    }
+
+    /* Progress */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+    .progress-track {
+      flex: 1;
+      height: 1px;
+      background: rgba(155,143,130,0.3);
+      position: relative;
+    }
+    .progress-fill {
+      height: 1px;
+      background: var(--pool-deep);
+      transition: width 0.5s var(--ease);
+    }
+    .progress-num {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Question blocks */
+    .q-block { display: none; }
+    .q-block.visible { display: block; animation: riseIn 0.45s var(--ease) forwards; }
+
+    .q-num {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 0.5rem;
+    }
+    .q-text {
+      font-size: clamp(1.1rem, 4vw, 1.4rem);
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .q-hint {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      font-style: italic;
+      margin-bottom: 1.4rem;
+      line-height: 1.6;
+    }
+
+    /* Text inputs */
+    .txt-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(155,143,130,0.4);
+      padding: 0.5rem 0;
+      font-family: var(--serif);
+      font-size: 1rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .txt-input:focus { border-bottom-color: var(--pool-deep); }
+    .txt-input::placeholder { color: rgba(155,143,130,0.7); font-style: italic; }
+
+    /* Date checkboxes */
+    .date-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    .date-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0.9rem;
+      border: 1px solid rgba(155,143,130,0.3);
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .date-item:hover { border-color: var(--pool-deep); }
+    .date-item.selected {
+      background: rgba(126,200,200,0.12);
+      border-color: var(--pool-deep);
+    }
+    .date-check {
+      width: 14px; height: 14px;
+      border: 1px solid rgba(155,143,130,0.5);
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .date-item.selected .date-check {
+      background: var(--pool-deep);
+      border-color: var(--pool-deep);
+    }
+    .date-item.selected .date-check::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: white;
+    }
+    .date-label { font-size: 0.9rem; color: var(--ink-mid); }
+    .date-day { font-size: 0.72rem; color: var(--ink-soft); margin-left: auto; letter-spacing: 0.05em; }
+
+    /* Chip selects */
+    .chip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.2rem;
+    }
+    .chip {
+      padding: 0.42rem 0.85rem;
+      border: 1px solid rgba(155,143,130,0.4);
+      font-family: var(--serif);
+      font-size: 0.83rem;
+      cursor: pointer;
+      color: var(--ink-mid);
+      background: transparent;
+      transition: all 0.2s;
+      user-select: none;
+      letter-spacing: 0.01em;
+    }
+    .chip:hover { border-color: var(--pool-deep); color: var(--pool-deep); }
+    .chip.selected {
+      background: var(--ink);
+      color: var(--linen);
+      border-color: var(--ink);
+    }
+
+    /* Field errors */
+    .f-err {
+      font-size: 0.75rem;
+      color: var(--rust);
+      margin-top: 0.4rem;
+      display: none;
+      font-style: italic;
+    }
+    .f-err.show { display: block; }
+
+    /* Nav row */
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2.2rem;
+      padding-top: 1.5rem;
+      border-top: 0.5px solid rgba(155,143,130,0.2);
+    }
+    .nav-back {
+      background: none; border: none;
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--ink-mid); }
+
+    /* ═══════════════════════════════════════════
+       SECTION DIVIDER — between RSVP & interests
+    ═══════════════════════════════════════════ */
+    .section-break {
+      text-align: center;
+      padding: 1.5rem 0 0.5rem;
+    }
+    .section-break-line {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--ink-soft);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin: 0.5rem 0;
+    }
+    .section-break-line::before,
+    .section-break-line::after {
+      content: '';
+      flex: 1;
+      border-top: 0.5px solid rgba(155,143,130,0.35);
+    }
+
+    /* ═══════════════════════════════════════════
+       IMAGE PICKER (inkblot / cocktail questions)
+    ═══════════════════════════════════════════ */
+    .img-pick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .img-pick-item {
+      position: relative;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      background: white;
+      aspect-ratio: 1 / 1;
+    }
+    .img-pick-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s var(--ease);
+    }
+    .img-pick-item:hover img { transform: scale(1.04); }
+    .img-pick-item.selected {
+      border-color: var(--pool-deep);
+      box-shadow: 0 0 0 1px var(--pool-deep);
+    }
+    .img-pick-item.selected::after {
+      content: '';
+      position: absolute;
+      top: 0.45rem; right: 0.55rem;
+      width: 20px; height: 20px;
+      background: var(--pool-deep);
+      border-radius: 50%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3 3 7-7' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 11px 9px;
+    }
+    .img-pick-grid--3col {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .f-err-img {
+      font-size: 0.75rem;
+      color: var(--rust);
+      margin-top: 0.5rem;
+      font-style: italic;
+      display: none;
+    }
+    .f-err-img.show { display: block; }
+
+    /* ═══════════════════════════════════════════
+       THANKS SCREEN
+    ═══════════════════════════════════════════ */
+    .thanks-card {
+      background: var(--cream);
+      border: 1px solid rgba(180,160,130,0.25);
+      box-shadow: 0 10px 40px rgba(28,26,21,0.1);
+      padding: 3rem 2rem;
+      margin-top: 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+    .thanks-card::before {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      border: 0.5px solid rgba(180,160,130,0.18);
+      pointer-events: none;
+    }
+    .thanks-script {
+      font-family: var(--script);
+      font-size: clamp(2.2rem, 9vw, 3.5rem);
+      color: var(--ink);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .thanks-body {
+      font-size: 1rem;
+      color: var(--ink-mid);
+      font-style: italic;
+      line-height: 1.9;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    .thanks-footer {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-top: 2rem;
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER WORDMARK
+    ═══════════════════════════════════════════ */
+    .page-footer {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0 0;
+      margin-top: 2rem;
+      border-top: 0.5px solid rgba(155,143,130,0.3);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    /* ═══════════════════════════════════════════
+       ADMIN TRIGGER
+    ═══════════════════════════════════════════ */
+    .admin-trigger {
+      position: fixed;
+      bottom: 1rem; right: 1rem;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--ink-soft);
+      opacity: 0.25;
+      cursor: pointer;
+      z-index: 200;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .admin-trigger:hover { opacity: 0.6; transform: scale(1.5); }
+
+    /* ═══════════════════════════════════════════
+       ADMIN OVERLAY
+    ═══════════════════════════════════════════ */
+    .admin-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(28,26,21,0.94);
+      z-index: 300;
+      overflow-y: auto;
+      padding: 2rem 1rem 5rem;
+    }
+    .admin-overlay.open { display: block; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .admin-inner { max-width: 680px; margin: 0 auto; color: var(--linen); }
+
+    .admin-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(247,243,236,0.12);
+    }
+    .admin-title {
+      font-family: var(--script);
+      font-size: 2rem;
+      color: var(--linen);
+    }
+    .admin-close {
+      background: none; border: none;
+      color: rgba(247,243,236,0.4);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .admin-close:hover { color: var(--linen); }
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .stat-box {
+      border: 1px solid rgba(247,243,236,0.1);
+      padding: 1rem;
+    }
+    .stat-num { font-size: 1.8rem; font-weight: 300; display: block; }
+    .stat-lbl { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+
+    .a-section {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin: 2rem 0 0.75rem;
+      border-bottom: 1px solid rgba(247,243,236,0.08);
+      padding-bottom: 0.4rem;
+    }
+
+    .itag {
+      display: inline-block;
+      padding: 0.22rem 0.65rem;
+      font-size: 0.74rem;
+      border: 1px solid rgba(247,243,236,0.15);
+      color: var(--ink-soft);
+      margin: 0.2rem;
+    }
+    .itag.top { border-color: var(--pool); color: var(--pool-pale); }
+
+    /* Date availability summary */
+    .date-summary { font-size: 0.82rem; color: rgba(247,243,236,0.7); line-height: 1.8; }
+    .date-bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.4rem; }
+    .date-bar-label { min-width: 140px; font-size: 0.78rem; color: rgba(247,243,236,0.6); }
+    .date-bar-track { flex: 1; height: 3px; background: rgba(247,243,236,0.1); border-radius: 2px; }
+    .date-bar-fill { height: 3px; background: var(--pool); border-radius: 2px; transition: width 0.5s; }
+    .date-bar-count { font-size: 0.72rem; color: var(--ink-soft); }
+
+    /* Pairings */
+    .pairing { display: flex; align-items: baseline; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid rgba(247,243,236,0.06); font-size: 0.82rem; }
+    .pairing-names { color: var(--linen); }
+    .pairing-shared { font-size: 0.72rem; color: var(--ink-soft); }
+
+    /* Guest cards */
+    .g-cards { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .g-card { border: 1px solid rgba(247,243,236,0.08); perspective: 900px; }
+    .g-card-inner {
+      position: relative;
+      min-height: 190px;
+      transform-style: preserve-3d;
+      transition: transform 0.7s var(--ease);
+    }
+    .g-card.flipped .g-card-inner { transform: rotateY(180deg); }
+
+    .card-front, .card-back2 {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      padding: 1.4rem;
+    }
+    .card-front {
+      background: #0e1e1e;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .card-back2 {
+      background: #111810;
+      transform: rotateY(180deg);
+      display: flex; flex-direction: column; justify-content: space-between;
+      min-height: 190px;
+    }
+    .cb-name { font-size: 1rem; letter-spacing: 0.06em; color: var(--linen); margin-bottom: 0.6rem; }
+    .cb-reading { font-size: 0.82rem; line-height: 1.8; color: rgba(247,243,236,0.65); font-style: italic; flex: 1; }
+    .cb-spark { margin-top: 0.8rem; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pool); opacity: 0.8; }
+
+    .flip-btn {
+      position: absolute;
+      bottom: 0.6rem; right: 0.7rem;
+      background: none;
+      border: 1px solid rgba(247,243,236,0.12);
+      color: rgba(247,243,236,0.35);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.55rem;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.2s;
+    }
+    .flip-btn:hover { color: var(--linen); border-color: rgba(247,243,236,0.35); }
+
+    .g-detail { display: flex; gap: 0.5rem; margin-bottom: 0.25rem; font-size: 0.77rem; }
+    .g-dlabel { color: var(--ink-soft); min-width: 110px; flex-shrink: 0; }
+    .g-dval { color: rgba(247,243,236,0.75); }
+
+    .admin-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.75rem; }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (max-width: 480px) {
+      .invite-card, .quiz-card, .thanks-card { padding: 1.8rem 1.3rem 1.5rem; }
+      .admin-stats { grid-template-columns: 1fr 1fr; }
+      .g-detail { flex-direction: column; gap: 0.05rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero image embedded -->
+  <div class="hero-wrap"><img src="hero.png" alt="Les Vacances Étranges" /></div>
+
+  <!-- Admin trigger -->
+  <div class="admin-trigger" id="adminTrigger"></div>
+
+  <!-- Admin overlay -->
+  <div class="admin-overlay" id="adminOverlay">
+    <div class="admin-inner">
+      <div class="admin-hdr">
+        <span class="admin-title">Host View</span>
+        <button class="admin-close" id="adminClose">&times;</button>
+      </div>
+      <div id="adminContent"></div>
+    </div>
+  </div>
+
+  <!-- ════ MAIN APP ════ -->
+  <main class="app">
+
+    <!-- Small wordmark beneath hero -->
+    <header class="brand-header">
+      <div class="brand-sub">Toronto &ensp;·&ensp; Summer 2026</div>
+    </header>
+
+    <!-- ── SCREEN: INVITE LETTER ── -->
+    <section class="screen active" id="screenInvite">
+      <div class="invite-card">
+        <div class="invite-ornament">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="20" stroke="#b8ad9e" stroke-width="0.5"/>
+            <circle cx="24" cy="24" r="14" stroke="#b8ad9e" stroke-width="0.3" stroke-dasharray="2 3.5"/>
+            <circle cx="24" cy="24" r="3.5" fill="#c4603a" opacity="0.5"/>
+          </svg>
+        </div>
+
+        <p class="invite-salutation">
+          Dear friend,<br>
+          <span id="groupIntro"></span>
+        </p>
+
+        <p class="invite-body">
+          As the summer inches nearer, I am excited to get back to outdoor dining. I would love for you to join for a night of casual cocktails and good food — with a bit of whimsy and fun, as is tradition.<br><br>
+          As my space to host is limited, I'm trying to find the best date among our group. A few quick questions below — and while I have you, I'd love to know a little about your world. I may be doing some additional dinners this summer and the answers will help me set the most interesting tables.
+        </p>
+
+        <div class="invite-divider"></div>
+
+        <p class="invite-body" style="font-size:0.88rem; text-align:right; margin-bottom:0.3rem;">
+          With warmth,
+        </p>
+        <div style="text-align:right;">
+          <span class="invite-sign">Krystal</span>
+        </div>
+
+        <div class="invite-divider"></div>
+
+        <div class="invite-cta">
+          <button class="btn btn-teal" id="beginBtn">I'd love to come &nbsp;→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SCREEN: QUIZ ── -->
+    <section class="screen" id="screenQuiz">
+      <div class="quiz-section-label" id="quizSectionLabel">RSVP</div>
+
+      <div class="quiz-card">
+        <div class="progress-row">
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill" style="width:9%"></div>
+          </div>
+          <div class="progress-num" id="progressNum">1 / 13</div>
+        </div>
+
+        <!-- Q0: Name -->
+        <div class="q-block visible" data-q="0">
+          <div class="q-num">I.</div>
+          <h2 class="q-text">What is your name?</h2>
+          <input class="txt-input" type="text" id="inputName" placeholder="First name is fine." autocomplete="given-name"/>
+          <div class="f-err" id="errName">A name, please.</div>
+        </div>
+
+        <!-- Q1: Email -->
+        <div class="q-block" data-q="1">
+          <div class="q-num">II.</div>
+          <h2 class="q-text">And your email?</h2>
+          <p class="q-hint">So I can send you the details once a date is confirmed.</p>
+          <input class="txt-input" type="email" id="inputEmail" placeholder="yours@somewhere.com" autocomplete="email"/>
+          <div class="f-err" id="errEmail">An email helps me reach you.</div>
+        </div>
+
+        <!-- Q2: Dates -->
+        <div class="q-block" data-q="2">
+          <div class="q-num">III.</div>
+          <h2 class="q-text">Which evenings could work for you?</h2>
+          <p class="q-hint">Check all that apply. We'll find the best overlap.</p>
+          <div class="date-grid" id="dateGrid">
+            <!-- Rendered by JS — edit DINNER_DATES array to change options -->
+          </div>
+          <div class="f-err" id="errDates">Please select at least one date.</div>
+        </div>
+
+        <!-- Q3: Dietary -->
+        <div class="q-block" data-q="3">
+          <div class="q-num">IV.</div>
+          <h2 class="q-text">Any food or drink preferences I should know?</h2>
+          <p class="q-hint">Allergies, aversions, devotions. Nothing is too specific.</p>
+          <input class="txt-input" type="text" id="inputFood" placeholder="e.g. vegetarian, no shellfish, obsessed with natural wine."/>
+        </div>
+
+        <!-- section break — interests start here -->
+        <div class="q-block" data-q="4">
+          <div class="section-break">
+            <div class="section-break-line">A little about you</div>
+            <p class="q-hint" style="margin-bottom:0;">The next few questions are for future dinners — the more I know, the better the table.</p>
+          </div>
+          <div class="q-num" style="margin-top:1.2rem;">V.</div>
+          <h2 class="q-text">Pick up to seven things you could talk about for an hour.</h2>
+          <div class="chip-grid" id="chipsInterests"></div>
+          <div class="f-err" id="errInterests">Choose at least one.</div>
+        </div>
+
+        <!-- Q5: More of -->
+        <div class="q-block" data-q="5">
+          <div class="q-num">VI.</div>
+          <h2 class="q-text">Pick two things you want more of right now.</h2>
+          <div class="chip-grid" id="chipsMoreOf"></div>
+          <div class="f-err" id="errMoreOf">Choose exactly two.</div>
+        </div>
+
+
+        <!-- Q6: Inkblot picker -->
+        <div class="q-block" data-q="6">
+          <div class="q-num">VII.</div>
+          <h2 class="q-text">Pick an inkblot.</h2>
+          <p class="q-hint">The one that pulls you first.</p>
+          <div class="img-pick-grid" id="inkblotGrid">
+            <div class="img-pick-item" data-inkblot="violet" onclick="selectInkblot(this)">
+              <img src="hero.png" alt="Violet inkblot" />
+            </div>
+            <div class="img-pick-item" data-inkblot="teal" onclick="selectInkblot(this)">
+              <img src="hero.png" alt="Teal inkblot" />
+            </div>
+            <div class="img-pick-item" data-inkblot="peach" onclick="selectInkblot(this)">
+              <img src="hero.png" alt="Peach inkblot" />
+            </div>
+            <div class="img-pick-item" data-inkblot="blush" onclick="selectInkblot(this)">
+              <img src="hero.png" alt="Blush inkblot" />
+            </div>
+          </div>
+          <div class="f-err-img" id="errInkblot">Choose the one that speaks to you.</div>
+        </div>
+        <!-- Q7: Dinner style -->
+        <div class="q-block" data-q="7">
+          <div class="q-num">VIII.</div>
+          <h2 class="q-text">At a dinner, you are usually —</h2>
+          <div class="chip-grid" id="chipsDinnerStyle"></div>
+          <div class="f-err" id="errDinnerStyle">Choose one.</div>
+        </div>
+
+
+        <!-- Q8: Fruit picker -->
+        <div class="q-block" data-q="8">
+          <div class="q-num">IX.</div>
+          <h2 class="q-text">Pick a fruit.</h2>
+          <p class="q-hint">Don't overthink it.</p>
+          <div class="img-pick-grid" id="fruitGrid">
+            <div class="img-pick-item" data-fruit="orange" onclick="selectFruit(this)">
+              <img src="img1.jpg" alt="Orange" />
+            </div>
+            <div class="img-pick-item" data-fruit="lime" onclick="selectFruit(this)">
+              <img src="img2.jpg" alt="Lime" />
+            </div>
+            <div class="img-pick-item" data-fruit="raspberry" onclick="selectFruit(this)">
+              <img src="img3.jpg" alt="Raspberry" />
+            </div>
+            <div class="img-pick-item" data-fruit="lemon" onclick="selectFruit(this)">
+              <img src="img4.jpg" alt="Lemon" />
+            </div>
+          </div>
+          <div class="f-err-img" id="errFruit">Choose the one that calls to you.</div>
+        </div>
+        <!-- Q9: Seatmate -->
+        <div class="q-block" data-q="9">
+          <div class="q-num">X.</div>
+          <h2 class="q-text">What kind of person do you love sitting beside?</h2>
+          <p class="q-hint">Pick as many as ring true.</p>
+          <div class="chip-grid" id="chipsSeatmate"></div>
+          <div class="f-err" id="errSeatmate">Choose at least one.</div>
+        </div>
+
+        <!-- Q10: Shocking fact -->
+        <div class="q-block" data-q="10">
+          <div class="q-num">XI.</div>
+          <h2 class="q-text">What is something that would shock people about you?</h2>
+          <p class="q-hint">Optional. The stranger, the better.</p>
+          <input class="txt-input" type="text" id="inputShocking" placeholder="Go on, we can handle it."/>
+        </div>
+
+
+        <!-- Q11: Cocktail picker -->
+        <div class="q-block" data-q="11">
+          <div class="q-num">XII.</div>
+          <h2 class="q-text">Pick a cocktail.</h2>
+          <p class="q-hint">The one you're reaching for right now.</p>
+          <div class="img-pick-grid img-pick-grid--3col" id="cocktailGrid">
+            <div class="img-pick-item" data-cocktail="pink-spritz" onclick="selectCocktail(this)">
+              <img src="img5.jpg" alt="Pink spritz" />
+            </div>
+            <div class="img-pick-item" data-cocktail="white-wine" onclick="selectCocktail(this)">
+              <img src="img6.jpg" alt="White wine" />
+            </div>
+            <div class="img-pick-item" data-cocktail="red-wine" onclick="selectCocktail(this)">
+              <img src="img7.jpg" alt="Red wine" />
+            </div>
+            <div class="img-pick-item" data-cocktail="beer" onclick="selectCocktail(this)">
+              <img src="img8.jpg" alt="Beer" />
+            </div>
+            <div class="img-pick-item" data-cocktail="margarita" onclick="selectCocktail(this)">
+              <img src="img9.jpg" alt="Margarita" />
+            </div>
+            <div class="img-pick-item" data-cocktail="rose" onclick="selectCocktail(this)">
+              <img src="img10.jpg" alt="Rosé" />
+            </div>
+          </div>
+          <div class="f-err-img" id="errCocktail">Choose your poison.</div>
+        </div>
+        <!-- Q12: Network referral -->
+        <div class="q-block" data-q="12">
+          <div class="q-num">XIII.</div>
+          <h2 class="q-text">Is there anyone in your network you think I should meet?</h2>
+          <p class="q-hint">Optional. Tell me who and why — I love a good introduction.</p>
+          <input class="txt-input" type="text" id="inputReferral" placeholder="Name, and what makes them interesting."/>
+        </div>
+
+        <!-- Navigation -->
+        <div class="quiz-nav">
+          <button class="nav-back" id="navBack">← back</button>
+          <button class="btn btn-teal" id="navNext">Continue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SCREEN: THANKS ── -->
+    <section class="screen" id="screenThanks">
+      <div class="thanks-card">
+        <span class="thanks-script">À bientôt.</span>
+        <p class="thanks-body">
+          Received with pleasure.<br>
+          Your seat is being considered with care.<br>
+          Look for a note when the date is set.
+        </p>
+        <div class="thanks-footer">Les Vacances Étranges &ensp;·&ensp; Toronto</div>
+      </div>
+    </section>
+
+    <!-- Footer wordmark -->
+    <footer class="page-footer">
+      <span>Vacances Étranges</span>
+      <span>Toronto, CA</span>
+    </footer>
+
+  </main>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════
+       LES VACANCES ÉTRANGES — GUEST QUIZ
+       ───────────────────────────────────────────────────────
+       To connect to a backend later:
+         Replace localStorage.setItem in saveSubmission()
+         with: fetch(SUBMIT_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(submission) })
+
+       URL param usage:
+         Share link as: https://yourdomain.com/vacances-quiz.html?group=EMBA+Girls
+         The group name will appear automatically in the invite letter.
+    ═══════════════════════════════════════════════════════ */
+
+    const STORAGE_KEY     = 'lvQuizSubmissions';
+    const SUBMIT_ENDPOINT = '/api/submissions'; // wire this up when ready
+
+    /* ── EDIT THESE DATES BEFORE EACH EVENT ─────────────── */
+    const DINNER_DATES = [
+      { value: '2026-06-13', label: 'Saturday, June 13',   day: 'Sat' },
+      { value: '2026-06-20', label: 'Saturday, June 20',   day: 'Sat' },
+      { value: '2026-06-27', label: 'Saturday, June 27',   day: 'Sat' },
+      { value: '2026-07-11', label: 'Saturday, July 11',   day: 'Sat' },
+      { value: '2026-07-18', label: 'Saturday, July 18',   day: 'Sat' },
+      { value: '2026-07-25', label: 'Saturday, July 25',   day: 'Sat' },
+    ];
+
+    /* ── CHIP DATA ───────────────────────────────────────── */
+    const INTERESTS = [
+      'AI', 'marketing & creative work', 'books', 'food',
+      'wine & cocktails', 'fitness', 'investing', 'team sports',
+      'yoga / pilates', 'hiking', 'travel', 'design',
+      'music', 'entrepreneurship', 'culture', 'wellness'
+    ];
+    const MORE_OF = [
+      'adventure', 'ease', 'discipline', 'beauty',
+      'connection', 'momentum', 'learning', 'play',
+      'solitude', 'novelty', 'whimsy'
+    ];
+    const DINNER_STYLES = [
+      'the question asker', 'the storyteller', 'the observer',
+      'the instigator', 'the caretaker', 'the wildcard'
+    ];
+    const SEATMATE_TRAITS = [
+      'funny', 'thoughtful', 'ambitious', 'calm',
+      'weird', 'warm', 'opinionated', 'curious'
+    ];
+
+    /* ── State ───────────────────────────────────────────── */
+    let currentQ          = 0;
+    const TOTAL_Q         = 13;
+    let selectedDates     = [];
+    let selectedInterests = [];
+    let selectedMoreOf    = [];
+    let selectedInkblot   = null;
+    let selectedFruit     = null;   // 'orange' | 'lime' | 'raspberry' | 'lemon'
+    let selectedCocktail  = null;   // 'pink-spritz' | 'white-wine' | 'red-wine' | 'beer' | 'margarita' | 'rose'
+    let selectedDinnerStyle = [];
+    let selectedSeatmate  = [];
+
+    const $ = id => document.getElementById(id);
+
+    /* ── Read group name from URL param ─────────────────── */
+    function getGroupName () {
+      return new URLSearchParams(window.location.search).get('group') || '';
+    }
+
+    function setGroupIntro () {
+      const group = getGroupName();
+      const el = $('groupIntro');
+      if (group) {
+        el.innerHTML = `I've included you among <em style="color:var(--rust)">${group}</em> — a group I'm excited to bring together this summer.`;
+      } else {
+        el.innerHTML = `I have been thinking about the people I most want to gather this summer, and you are on that list.`;
+      }
+    }
+
+    /* ── Screen switcher ─────────────────────────────────── */
+    function showScreen (id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      $(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ── Quiz section label ──────────────────────────────── */
+    function updateSectionLabel (q) {
+      const label = $('quizSectionLabel');
+      if (q <= 3)      label.textContent = 'RSVP';
+      else if (q === 4) label.textContent = 'About You';
+      else              label.textContent = 'About You';
+    }
+
+    /* ── Build date checkboxes ───────────────────────────── */
+    function buildDates () {
+      const grid = $('dateGrid');
+      DINNER_DATES.forEach(d => {
+        const item = document.createElement('div');
+        item.className = 'date-item' + (selectedDates.includes(d.value) ? ' selected' : '');
+        item.innerHTML = `
+          <div class="date-check"></div>
+          <span class="date-label">${d.label}</span>
+          <span class="date-day">${d.day}</span>
+        `;
+        item.addEventListener('click', () => {
+          item.classList.toggle('selected');
+          if (item.classList.contains('selected')) {
+            selectedDates.push(d.value);
+          } else {
+            selectedDates = selectedDates.filter(v => v !== d.value);
+          }
+          $('errDates').classList.remove('show');
+        });
+        grid.appendChild(item);
+      });
+    }
+
+    /* ── Build chip groups ───────────────────────────────── */
+    function buildChips (containerId, items, selectedArr, maxSelect, errorId) {
+      const wrap = $(containerId);
+      wrap.innerHTML = '';
+      items.forEach(item => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'chip' + (selectedArr.includes(item) ? ' selected' : '');
+        chip.textContent = item;
+        chip.addEventListener('click', () => {
+          if (chip.classList.contains('selected')) {
+            chip.classList.remove('selected');
+            const i = selectedArr.indexOf(item);
+            if (i > -1) selectedArr.splice(i, 1);
+          } else {
+            if (selectedArr.length >= maxSelect) return;
+            chip.classList.add('selected');
+            selectedArr.push(item);
+          }
+          if (errorId) $(errorId).classList.remove('show');
+        });
+        wrap.appendChild(chip);
+      });
+    }
+
+    /* ── Image picker: inkblot ───────────────────────────── */
+    function selectInkblot (el) {
+      document.querySelectorAll('#inkblotGrid .img-pick-item').forEach(i => i.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedInkblot = el.dataset.inkblot;
+      $('errInkblot').classList.remove('show');
+    }
+
+    /* ── Image picker: fruit ─────────────────────────────── */
+    function selectFruit (el) {
+      document.querySelectorAll('#fruitGrid .img-pick-item').forEach(i => i.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedFruit = el.dataset.fruit;
+      $('errFruit').classList.remove('show');
+    }
+
+    /* ── Image picker: cocktail ──────────────────────────── */
+    function selectCocktail (el) {
+      document.querySelectorAll('#cocktailGrid .img-pick-item').forEach(i => i.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedCocktail = el.dataset.cocktail;
+      $('errCocktail').classList.remove('show');
+    }
+
+    /* ── Show question ───────────────────────────────────── */
+    function showQuestion (idx) {
+      document.querySelectorAll('.q-block').forEach(b => b.classList.remove('visible'));
+      document.querySelectorAll('.q-block')[idx].classList.add('visible');
+
+      const pct = Math.round(((idx + 1) / TOTAL_Q) * 100);
+      $('progressFill').style.width = pct + '%';
+      $('progressNum').textContent   = `${idx + 1} / ${TOTAL_Q}`;
+
+      $('navBack').style.visibility = idx === 0 ? 'hidden' : 'visible';
+      $('navNext').textContent = idx === TOTAL_Q - 1 ? 'Submit' : 'Continue';
+
+      updateSectionLabel(idx);
+    }
+
+    /* ── Validation ──────────────────────────────────────── */
+    function validate () {
+      switch (currentQ) {
+        case 0:
+          if (!$('inputName').value.trim()) { $('errName').classList.add('show'); return false; }
+          return true;
+        case 1:
+          if (!$('inputEmail').value.trim()) { $('errEmail').classList.add('show'); return false; }
+          return true;
+        case 2:
+          if (selectedDates.length === 0) { $('errDates').classList.add('show'); return false; }
+          return true;
+        case 3: return true;  // dietary — optional
+        case 4:
+          if (selectedInterests.length === 0) { $('errInterests').classList.add('show'); return false; }
+          return true;
+        case 5:
+          if (selectedMoreOf.length !== 2) { $('errMoreOf').classList.add('show'); return false; }
+          return true;
+        case 6:  return true;  // inkblot — optional
+        case 7:
+          if (selectedDinnerStyle.length === 0) { $('errDinnerStyle').classList.add('show'); return false; }
+          return true;
+        case 8:  return true;  // fruit — optional
+        case 9:
+          if (selectedSeatmate.length === 0) { $('errSeatmate').classList.add('show'); return false; }
+          return true;
+        case 10: return true;  // shocking — optional
+        case 11: return true;  // cocktail — optional
+        case 12: return true;  // referral — optional
+        default: return true;
+      }
+    }
+
+    /* ── Nav events ──────────────────────────────────────── */
+    $('navNext').addEventListener('click', () => {
+      if (!validate()) return;
+      if (currentQ < TOTAL_Q - 1) {
+        currentQ++;
+        showQuestion(currentQ);
+      } else {
+        submitQuiz();
+      }
+    });
+
+    $('navBack').addEventListener('click', () => {
+      if (currentQ > 0) { currentQ--; showQuestion(currentQ); }
+    });
+
+    $('beginBtn').addEventListener('click', () => {
+      showScreen('screenQuiz');
+      showQuestion(0);
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && $('screenQuiz').classList.contains('active')) {
+        e.preventDefault();
+        $('navNext').click();
+      }
+    });
+
+    /* ═══════════════════════════════════════════════════════
+       POETIC READING — 80–120 words, impressionistic
+    ═══════════════════════════════════════════════════════ */
+    function generateReading ({ selectedInterests, selectedMoreOf, dinnerStyle, shockingFact }) {
+      const i1 = selectedInterests[0] || 'ideas';
+      const i2 = selectedInterests[1] || 'people';
+      const w1 = selectedMoreOf[0]    || 'connection';
+      const w2 = selectedMoreOf[1]    || 'beauty';
+      const st = dinnerStyle[0]       || 'the observer';
+      const sf = shockingFact         || 'more than meets the eye';
+
+      const opens = [
+        `There is something particular about people drawn to ${i1} — a quality of restlessness that sits quietly in a room.`,
+        `The convergence of ${i1} and ${i2} is rarely accidental. It tends to mark someone who has learned to look sideways at the world.`,
+        `Something about ${i1} keeps returning to certain people. An eye that doesn't fully close.`,
+      ];
+      const mids = [
+        ` The appetite for ${w1} alongside ${w2} suggests someone who knows the difference between distraction and depth.`,
+        ` Wanting ${w1} and ${w2} in the same breath is a particular kind of hunger — one that tends to find people more than it finds things.`,
+        ` Seeking ${w1} while reaching for ${w2}: this is not a contradiction. It is a very specific compass.`,
+      ];
+      const ends = [
+        ` At the table, they arrive as ${st}. The surface, as always, tells only part of it.`,
+        ` Seat them somewhere interesting. As ${st}, they repay proximity. There is more here than the room will guess.`,
+        ` As ${st}, they are best approached sideways. What you see is the beginning.`,
+      ];
+
+      const seed = (selectedInterests.length + w1.length) % 3;
+      return opens[seed] + mids[(seed + 1) % 3] + ends[(seed + 2) % 3];
+    }
+
+    function generateSpark ({ selectedInterests, shockingFact }) {
+      const sparks = [
+        `Ask: what's the most interesting thing you've changed your mind about lately?`,
+        `Open with: I heard you know something about ${selectedInterests[0] || 'this'}.`,
+        `Ask: what brought you here tonight, honestly?`,
+        `Try: what's something about you that would genuinely surprise people?`,
+        `Start with: if you could only keep one interest, which one survives?`,
+      ];
+      return sparks[selectedInterests.length % sparks.length];
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       SUBMISSION
+       ─────────────────────────────────────────────────────
+       BACKEND HOOK: swap the localStorage block below for:
+         await fetch(SUBMIT_ENDPOINT, {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify(submission)
+         });
+    ═══════════════════════════════════════════════════════ */
+    function submitQuiz () {
+      const submission = {
+        id:                      crypto.randomUUID(),
+        createdAt:               new Date().toISOString(),
+        group:                   getGroupName(),
+        name:                    $('inputName').value.trim(),
+        email:                   $('inputEmail').value.trim(),
+        availableDates:          [...selectedDates],
+        foodDrinkPreferences:    $('inputFood').value.trim(),
+        selectedInterests:       [...selectedInterests],
+        desiredMoreOf:           [...selectedMoreOf],
+        inkblotChoice:           selectedInkblot || '',
+        fruitChoice:             selectedFruit || '',
+        dinnerStyle:             [...selectedDinnerStyle],
+        preferredSeatmateTraits: [...selectedSeatmate],
+        askMeAbout:              '',
+        shockingFact:            $('inputShocking').value.trim(),
+        cocktailChoice:          selectedCocktail || '',
+        networkReferral:         $('inputReferral').value.trim(),
+        generatedReading:        generateReading({
+          selectedInterests,
+          selectedMoreOf,
+          dinnerStyle: selectedDinnerStyle,
+          shockingFact: $('inputShocking').value.trim()
+        }),
+        conversationSpark:       generateSpark({
+          selectedInterests,
+          shockingFact: $('inputShocking').value.trim()
+        })
+      };
+
+      /* ── localStorage (replace with fetch for backend) ── */
+      const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      all.push(submission);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+
+      showScreen('screenThanks');
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       ADMIN PANEL — click dot 5× within 2s
+    ═══════════════════════════════════════════════════════ */
+    let adminClicks = 0, adminTimer = null;
+    $('adminTrigger').addEventListener('click', () => {
+      adminClicks++;
+      clearTimeout(adminTimer);
+      adminTimer = setTimeout(() => { adminClicks = 0; }, 2000);
+      if (adminClicks >= 5) { adminClicks = 0; openAdmin(); }
+    });
+    $('adminClose').addEventListener('click', () => $('adminOverlay').classList.remove('open'));
+
+    function openAdmin () { renderAdmin(); $('adminOverlay').classList.add('open'); }
+
+    function getSubs () { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+
+    function renderAdmin () {
+      const subs = getSubs();
+
+      /* Interest frequency */
+      const iCount = {};
+      subs.forEach(s => (s.selectedInterests||[]).forEach(i => {
+        iCount[i] = (iCount[i]||0) + 1;
+      }));
+      const topI = Object.entries(iCount).sort((a,b) => b[1]-a[1]).slice(0,10);
+
+      /* Date availability */
+      const dateCount = {};
+      subs.forEach(s => (s.availableDates||[]).forEach(d => {
+        dateCount[d] = (dateCount[d]||0) + 1;
+      }));
+      const maxDateCount = Math.max(...Object.values(dateCount), 1);
+
+      /* Best date(s) */
+      const bestDate = Object.entries(dateCount).sort((a,b)=>b[1]-a[1])[0];
+
+      /* Pairings */
+      const pairings = [];
+      for (let i=0; i<subs.length; i++) {
+        for (let j=i+1; j<subs.length; j++) {
+          const shared = (subs[i].selectedInterests||[]).filter(x=>(subs[j].selectedInterests||[]).includes(x));
+          if (shared.length >= 2) pairings.push({ a: subs[i].name, b: subs[j].name, shared });
+        }
+      }
+
+      $('adminContent').innerHTML = `
+        <!-- Stats -->
+        <div class="admin-stats">
+          <div class="stat-box">
+            <span class="stat-num">${subs.length}</span>
+            <span class="stat-lbl">Responses</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">${pairings.length}</span>
+            <span class="stat-lbl">Guest pairings</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">${bestDate ? bestDate[1] : '—'}</span>
+            <span class="stat-lbl">${bestDate ? DINNER_DATES.find(d=>d.value===bestDate[0])?.label || bestDate[0] : 'No dates yet'}</span>
+          </div>
+        </div>
+
+        <!-- Date availability -->
+        <div class="a-section">Date availability</div>
+        <div>
+          ${DINNER_DATES.map(d => {
+            const count = dateCount[d.value] || 0;
+            const pct = subs.length ? Math.round((count / subs.length) * 100) : 0;
+            return `<div class="date-bar-row">
+              <div class="date-bar-label">${d.label}</div>
+              <div class="date-bar-track"><div class="date-bar-fill" style="width:${pct}%"></div></div>
+              <div class="date-bar-count">${count}</div>
+            </div>`;
+          }).join('')}
+        </div>
+
+        <!-- Top interests -->
+        <div class="a-section">Most common interests</div>
+        <div>
+          ${topI.map(([name,count],i) =>
+            `<span class="itag ${i<3?'top':''}">${name} (${count})</span>`
+          ).join('') || '<span style="color:var(--ink-soft);font-size:0.8rem;">No data yet.</span>'}
+        </div>
+
+        <!-- Pairings -->
+        <div class="a-section">Suggested pairings (2+ shared interests)</div>
+        <div>
+          ${pairings.length
+            ? pairings.map(p => `<div class="pairing">
+                <span class="pairing-names">${p.a} &amp; ${p.b}</span>
+                <span class="pairing-shared">— ${p.shared.join(', ')}</span>
+              </div>`).join('')
+            : '<span style="color:var(--ink-soft);font-size:0.8rem;">Need 2+ responses.</span>'}
+        </div>
+
+        <!-- Guest cards -->
+        <div class="a-section">Guest cards</div>
+        <div class="g-cards">
+          ${subs.length
+            ? subs.map(s => buildGuestCard(s)).join('')
+            : '<span style="color:var(--ink-soft);font-size:0.8rem;">No guests yet.</span>'}
+        </div>
+
+        <!-- All responses -->
+        <div class="a-section">All responses</div>
+        <div>
+          ${subs.map(s => `
+            <div style="margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(247,243,236,0.07)">
+              <div style="font-size:0.9rem;color:var(--linen);margin-bottom:0.5rem;">
+                ${s.name||'—'}
+                <span style="font-size:0.68rem;color:var(--ink-soft);margin-left:0.5rem;">${s.group ? `[${s.group}]` : ''} ${new Date(s.createdAt).toLocaleDateString()}</span>
+              </div>
+              ${dr('Email', s.email||'—')}
+              ${dr('Available dates', (s.availableDates||[]).map(v=>DINNER_DATES.find(d=>d.value===v)?.label||v).join(', ')||'—')}
+              ${dr('Food/drink', s.foodDrinkPreferences||'—')}
+              ${dr('Interests', (s.selectedInterests||[]).join(', ')||'—')}
+              ${dr('Wants more', (s.desiredMoreOf||[]).join(', ')||'—')}
+              ${dr('Inkblot', s.inkblotChoice||'—')}
+              ${dr('Fruit', s.fruitChoice||'—')}
+              ${dr('At dinner', (s.dinnerStyle||[]).join(', ')||'—')}
+              ${dr('Ideal neighbour', (s.preferredSeatmateTraits||[]).join(', ')||'—')}
+              ${dr('Shocking fact', s.shockingFact||'—')}
+              ${dr('Cocktail', s.cocktailChoice||'—')}
+              ${dr('Network referral', s.networkReferral||'—')}
+            </div>
+          `).join('')||'<span style="color:var(--ink-soft);font-size:0.8rem;">Empty.</span>'}
+        </div>
+
+        <!-- Actions -->
+        <div class="a-section">Actions</div>
+        <div class="admin-actions">
+          <button class="btn btn-ghost" id="exportCsv">Export CSV</button>
+          <button class="btn btn-danger" id="clearData">Clear all data</button>
+        </div>
+      `;
+
+      /* Flip card listeners */
+      document.querySelectorAll('.flip-btn').forEach(btn => {
+        btn.addEventListener('click', () => btn.closest('.g-card').classList.toggle('flipped'));
+      });
+
+      $('exportCsv').addEventListener('click', () => exportCSV(subs));
+      $('clearData').addEventListener('click', () => {
+        if (confirm('Clear all guest data permanently?')) {
+          localStorage.removeItem(STORAGE_KEY);
+          renderAdmin();
+        }
+      });
+    }
+
+    function dr (label, value) {
+      return `<div class="g-detail"><span class="g-dlabel">${label}</span><span class="g-dval">${value}</span></div>`;
+    }
+
+    /* ── Guest card with CSS citrus-pool front art ────────── */
+    function buildGuestCard (s) {
+      const seed  = (s.name||'x').charCodeAt(0);
+      const hue1  = (seed * 37) % 360;
+      const hue2  = (seed * 73 + 120) % 360;
+      /* pool-teal blobs with a citrus accent */
+      const blobs = [
+        { x:30, y:45, w:90, h:70,  c:`hsla(${180+seed%40},55%,55%,0.25)` },
+        { x:70, y:45, w:90, h:70,  c:`hsla(${180+seed%40},55%,55%,0.25)` },
+        { x:50, y:30, w:60, h:55,  c:`hsla(${hue1},50%,60%,0.18)` },
+        { x:50, y:65, w:50, h:40,  c:`hsla(${hue2},55%,55%,0.15)` },
+        { x:20, y:70, w:40, h:35,  c:`hsla(45,70%,60%,0.2)` },   /* citrus accent */
+        { x:80, y:70, w:40, h:35,  c:`hsla(45,70%,60%,0.2)` },
+      ];
+
+      const blobsHtml = blobs.map(b =>
+        `<div style="position:absolute;left:${b.x}%;top:${b.y}%;
+          transform:translate(-50%,-50%);
+          width:${b.w}px;height:${b.h}px;
+          border-radius:50%;
+          background:radial-gradient(ellipse,${b.c} 0%,transparent 70%);
+          filter:blur(12px);"></div>`
+      ).join('');
+
+      return `
+        <div class="g-card">
+          <div class="g-card-inner">
+            <div class="card-front">
+              <div style="position:relative;width:100%;height:190px;">${blobsHtml}</div>
+              <button class="flip-btn">read →</button>
+            </div>
+            <div class="card-back2">
+              <div>
+                <div class="cb-name">${s.name||'Guest'}</div>
+                <div class="cb-reading">${s.generatedReading||''}</div>
+                <div class="cb-spark">${s.conversationSpark||''}</div>
+              </div>
+              <button class="flip-btn" style="position:static;margin-top:1rem;align-self:flex-end;">← art</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CSV EXPORT
+       Add new fields here as the schema grows.
+    ═══════════════════════════════════════════════════════ */
+    function exportCSV (subs) {
+      const headers = [
+        'id','createdAt','group','name','email',
+        'availableDates','foodDrinkPreferences',
+        'selectedInterests','desiredMoreOf',
+        'inkblotChoice','fruitChoice','dinnerStyle',
+        'preferredSeatmateTraits','shockingFact','cocktailChoice',
+        'networkReferral','generatedReading','conversationSpark'
+      ];
+      const rows = subs.map(s => headers.map(h => {
+        const v = Array.isArray(s[h]) ? s[h].join(' | ') : (s[h]||'');
+        return `"${String(v).replace(/"/g,'""')}"`;
+      }).join(','));
+      const csv  = [headers.join(','), ...rows].join('\n');
+      const blob = new Blob([csv], { type:'text/csv' });
+      const url  = URL.createObjectURL(blob);
+      const a    = Object.assign(document.createElement('a'), { href:url, download:`lve-guests-${new Date().toISOString().slice(0,10)}.csv` });
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       INIT
+    ═══════════════════════════════════════════════════════ */
+    function init () {
+      setGroupIntro();
+      buildDates();
+      buildChips('chipsInterests',   INTERESTS,      selectedInterests,    7, 'errInterests');
+      buildChips('chipsMoreOf',      MORE_OF,        selectedMoreOf,       2, 'errMoreOf');
+      buildChips('chipsDinnerStyle', DINNER_STYLES,  selectedDinnerStyle,  1, 'errDinnerStyle');
+      buildChips('chipsSeatmate',    SEATMATE_TRAITS,selectedSeatmate,     8, 'errSeatmate');
+
+      /* Clear errors on type */
+      ['inputName','inputAskMe'].forEach(id => {
+        $(id).addEventListener('input', () => $('err'+id.replace('input','')).classList.remove('show'));
+      });
+      $('inputEmail').addEventListener('input', () => $('errEmail').classList.remove('show'));
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
