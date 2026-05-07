@@ -62,7 +62,8 @@ export default async function handler (req) {
 
     if (!airtableRes.ok) {
       const err = await airtableRes.json();
-      return new Response(JSON.stringify({ error: err?.error?.message || 'Airtable error' }), {
+      console.error('Airtable error:', JSON.stringify(err));
+      return new Response(JSON.stringify({ error: err?.error?.message || 'Airtable error', detail: err }), {
         status: airtableRes.status,
         headers: { 'Content-Type': 'application/json' },
       });
