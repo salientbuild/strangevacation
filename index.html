@@ -815,7 +815,7 @@
 
         <p class="invite-body">
           As the summer inches nearer, I am excited to get back to outdoor dining. I would love for you to join for a night of casual cocktails and good food — with a bit of whimsy and fun, as is tradition.<br><br>
-          As my space to host is limited, I'm trying to find the best date among our group. A few quick questions below — and while I have you, I'd love to know a little about your world. I may be doing some additional dinners this summer and the answers will help me set the most interesting tables.
+          As my space to host is limited, I'm trying to find the best date among our group. In addition to your availability and food preferences, I would be ever so grateful if you took a moment to answer some additional questions. All in the nature of good fun and whimsy!
         </p>
 
         <div class="invite-divider"></div>
@@ -890,7 +890,7 @@
             <p class="q-hint" style="margin-bottom:0;">The next few questions are for future dinners — the more I know, the better the table.</p>
           </div>
           <div class="q-num" style="margin-top:1.2rem;">V.</div>
-          <h2 class="q-text">Pick up to seven things you could talk about for an hour.</h2>
+          <h2 class="q-text">What are some topics you are known or love to talk about? (choose up to 7)</h2>
           <div class="chip-grid" id="chipsInterests"></div>
           <div class="f-err" id="errInterests">Choose at least one.</div>
         </div>
@@ -898,7 +898,7 @@
         <!-- Q5: More of -->
         <div class="q-block" data-q="5">
           <div class="q-num">VI.</div>
-          <h2 class="q-text">Pick two things you want more of right now.</h2>
+          <h2 class="q-text">What do you want MORE of right now? (pick two)</h2>
           <div class="chip-grid" id="chipsMoreOf"></div>
           <div class="f-err" id="errMoreOf">Choose exactly two.</div>
         </div>
@@ -958,7 +958,7 @@
         <!-- Q9: Seatmate -->
         <div class="q-block" data-q="9">
           <div class="q-num">X.</div>
-          <h2 class="q-text">What kind of person do you love sitting beside?</h2>
+          <h2 class="q-text">At dinner, what kind of person do you love sitting beside?</h2>
           <p class="q-hint">Pick as many as ring true.</p>
           <div class="chip-grid" id="chipsSeatmate"></div>
           <div class="f-err" id="errSeatmate">Choose at least one.</div>
@@ -976,7 +976,7 @@
         <!-- Q11: Cocktail picker -->
         <div class="q-block" data-q="11">
           <div class="q-num">XII.</div>
-          <h2 class="q-text">Pick a cocktail.</h2>
+          <h2 class="q-text">Pick a beverage.</h2>
           <p class="q-hint">The one you're reaching for right now.</p>
           <div class="img-pick-grid img-pick-grid--3col" id="cocktailGrid">
             <div class="img-pick-item" data-cocktail="pink-spritz" onclick="selectCocktail(this)">
@@ -1056,19 +1056,19 @@
 
     /* ── EDIT THESE DATES BEFORE EACH EVENT ─────────────── */
     const DINNER_DATES = [
-      { value: '2026-06-13', label: 'Saturday, June 13',   day: 'Sat' },
-      { value: '2026-06-20', label: 'Saturday, June 20',   day: 'Sat' },
-      { value: '2026-06-27', label: 'Saturday, June 27',   day: 'Sat' },
-      { value: '2026-07-11', label: 'Saturday, July 11',   day: 'Sat' },
-      { value: '2026-07-18', label: 'Saturday, July 18',   day: 'Sat' },
-      { value: '2026-07-25', label: 'Saturday, July 25',   day: 'Sat' },
+      { value: '2026-06-13', label: 'Saturday, June 13th',  day: 'Sat' },
+      { value: '2026-06-14', label: 'Sunday, June 14th',    day: 'Sun' },
+      { value: '2026-06-20', label: 'Saturday, June 20th',  day: 'Sat' },
+      { value: '2026-06-21', label: 'Sunday, June 21st',    day: 'Sun' },
+      { value: '2026-06-27', label: 'Saturday, June 27th',  day: 'Sat' },
+      { value: '2026-06-28', label: 'Sunday, June 28th',    day: 'Sun' },
     ];
 
     /* ── CHIP DATA ───────────────────────────────────────── */
     const INTERESTS = [
       'AI', 'marketing & creative work', 'books', 'food',
-      'wine & cocktails', 'fitness', 'investing', 'team sports',
-      'yoga / pilates', 'hiking', 'travel', 'design',
+      'wine & cocktails', 'fitness', 'investing', 'sports',
+      'art', 'hiking', 'travel', 'design',
       'music', 'entrepreneurship', 'culture', 'wellness'
     ];
     const MORE_OF = [
@@ -1110,7 +1110,7 @@
       if (group) {
         el.innerHTML = `I've included you among <em style="color:var(--rust)">${group}</em> — a group I'm excited to bring together this summer.`;
       } else {
-        el.innerHTML = `I have been thinking about the people I most want to gather this summer, and you are on that list.`;
+        el.innerHTML = '';
       }
     }
 
