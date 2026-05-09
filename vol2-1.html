@@ -763,6 +763,48 @@
     }
     .submit-error.show { display: block; }
 
+    /* RSVP date display + buttons */
+    .rsvp-date {
+      font-family: var(--script);
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      color: var(--ink);
+      text-align: center;
+      margin: 1rem 0 1.5rem;
+    }
+    .rsvp-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .rsvp-btns .btn { width: 100%; justify-content: center; }
+    .rsvp-btn-no {
+      background: transparent;
+      border: 1px solid rgba(155,143,130,0.4);
+      color: var(--ink-soft);
+      font-family: var(--serif);
+      font-size: 0.88rem;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .rsvp-btn-no:hover { border-color: var(--ink-mid); color: var(--ink-mid); }
+
+    /* Skip link */
+    .skip-link {
+      display: inline-block;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      margin-top: 1.1rem;
+      opacity: 0.65;
+      transition: opacity 0.2s;
+      user-select: none;
+    }
+    .skip-link:hover { opacity: 1; }
+
     @media (max-width: 480px) {
       .invite-card, .quiz-card, .thanks-card { padding: 1.8rem 1.3rem 1.5rem; }
       .admin-stats { grid-template-columns: 1fr 1fr; }
@@ -809,23 +851,17 @@
         </div>
 
         <p class="invite-salutation">
-          Dear friend,<br>
-          <span id="groupIntro"></span>
+          Dear friend,<span id="groupIntro"></span>
         </p>
 
         <p class="invite-body">
-          As the summer inches nearer, we are excited to get back to outdoor dining. We would love for you to join for a night of casual cocktails and good food — with a bit of whimsy and fun, as is tradition.<br><br>
-          As our space to host is limited, we're trying to find the best date among our group. In addition to your availability and food preferences, we would be ever so grateful if you took a moment to answer some additional questions. All in the nature of good fun and whimsy!
+          As summer inches closer, we're excited to return to outdoor dining — one of our favorite ways to gather.<br><br>
+          We'd love for you to join us for an afternoon of casual cocktails, good wine, good food, and a little bit of whimsy (as is tradition).<br><br>
+          Krystal's space is cozy, so we'll be dining outdoors — dress accordingly.<br><br>
+          Along with your RSVP and food preferences, you'll find a few additional questions. We'd be so grateful if you took a moment to complete them. It may take a few minutes, so grab a coffee and enjoy it — it's all part of the fun.<br><br>
+          We can't wait to have you.<br>
+          — Krystal and Ryan
         </p>
-
-        <div class="invite-divider"></div>
-
-        <p class="invite-body" style="font-size:0.88rem; text-align:right; margin-bottom:0.3rem;">
-          With warmth,
-        </p>
-        <div style="text-align:right;">
-          <span class="invite-sign">Krystal and Ryan</span>
-        </div>
 
         <div class="invite-divider"></div>
 
@@ -864,15 +900,15 @@
           <div class="f-err" id="errEmail">An email helps me reach you.</div>
         </div>
 
-        <!-- Q2: Dates -->
+        <!-- Q2: RSVP -->
         <div class="q-block" data-q="2">
           <div class="q-num">III.</div>
-          <h2 class="q-text">Which evenings could work for you?</h2>
-          <p class="q-hint">Check all that apply. We'll find the best overlap.</p>
-          <div class="date-grid" id="dateGrid">
-            <!-- Rendered by JS — edit DINNER_DATES array to change options -->
+          <h2 class="q-text">We're gathering on</h2>
+          <div class="rsvp-date">Saturday, May 30th at 1pm</div>
+          <div class="rsvp-btns">
+            <button class="btn btn-teal" onclick="rsvpYes()">Yes, I'll be there</button>
+            <button class="rsvp-btn-no" onclick="rsvpNo()">Sorry, I can't make it</button>
           </div>
-          <div class="f-err" id="errDates">Please select at least one date.</div>
         </div>
 
         <!-- Q3: Dietary -->
@@ -881,6 +917,7 @@
           <h2 class="q-text">Any food or drink preferences I should know?</h2>
           <p class="q-hint">Allergies, aversions, devotions. Nothing is too specific.</p>
           <input class="txt-input" type="text" id="inputFood" placeholder="e.g. vegetarian, no shellfish, obsessed with natural wine."/>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
         <!-- section break — interests start here -->
@@ -893,6 +930,7 @@
           <h2 class="q-text">What are some topics you are known or love to talk about? (choose up to 7)</h2>
           <div class="chip-grid" id="chipsInterests"></div>
           <div class="f-err" id="errInterests">Choose at least one.</div>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
         <!-- Q5: More of -->
@@ -901,6 +939,7 @@
           <h2 class="q-text">What do you want MORE of right now? (pick two)</h2>
           <div class="chip-grid" id="chipsMoreOf"></div>
           <div class="f-err" id="errMoreOf">Choose exactly two.</div>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
 
@@ -924,6 +963,7 @@
             </div>
           </div>
           <div class="f-err-img" id="errInkblot">Choose the one that speaks to you.</div>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
         <!-- Q7: Dinner style -->
         <div class="q-block" data-q="7">
@@ -931,6 +971,7 @@
           <h2 class="q-text">At a dinner, you are usually —</h2>
           <div class="chip-grid" id="chipsDinnerStyle"></div>
           <div class="f-err" id="errDinnerStyle">Choose one.</div>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
 
@@ -954,6 +995,7 @@
             </div>
           </div>
           <div class="f-err-img" id="errFruit">Choose the one that calls to you.</div>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
         <!-- Q9: Seatmate -->
         <div class="q-block" data-q="9">
@@ -962,6 +1004,7 @@
           <p class="q-hint">Pick as many as ring true.</p>
           <div class="chip-grid" id="chipsSeatmate"></div>
           <div class="f-err" id="errSeatmate">Choose at least one.</div>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
         <!-- Q10: Shocking fact -->
@@ -970,6 +1013,7 @@
           <h2 class="q-text">What is something that would shock people about you?</h2>
           <p class="q-hint">Optional. The stranger, the better.</p>
           <input class="txt-input" type="text" id="inputShocking" placeholder="Go on, we can handle it."/>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
 
@@ -999,6 +1043,7 @@
             </div>
           </div>
           <div class="f-err-img" id="errCocktail">Choose your poison.</div>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
         <!-- Q12: Network referral -->
         <div class="q-block" data-q="12">
@@ -1006,6 +1051,7 @@
           <h2 class="q-text">Is there anyone in your network you think I should meet?</h2>
           <p class="q-hint">Optional. Tell me who and why — I love a good introduction.</p>
           <input class="txt-input" type="text" id="inputReferral" placeholder="Name, and what makes them interesting."/>
+          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
         <!-- Navigation -->
@@ -1025,6 +1071,18 @@
           Received with pleasure.<br>
           Your seat is being considered with care.<br>
           Look for a note when the date is set.
+        </p>
+        <div class="thanks-footer">Les Vacances Étranges &ensp;·&ensp; Toronto</div>
+      </div>
+    </section>
+
+    <!-- ── SCREEN: DECLINED ── -->
+    <section class="screen" id="screenDeclined">
+      <div class="thanks-card">
+        <span class="thanks-script">À une prochaine fois.</span>
+        <p class="thanks-body">
+          We'll miss you!<br>
+          Hope to see you at the next one.
         </p>
         <div class="thanks-footer">Les Vacances Étranges &ensp;·&ensp; Toronto</div>
       </div>
@@ -1189,6 +1247,27 @@
       $('errFruit').classList.remove('show');
     }
 
+    /* ── RSVP buttons (Q2) ──────────────────────────────── */
+    function rsvpYes () {
+      selectedDates = ['2026-05-30'];
+      currentQ++;
+      showQuestion(currentQ);
+    }
+
+    function rsvpNo () {
+      showScreen('screenDeclined');
+    }
+
+    /* ── Skip question ───────────────────────────────────── */
+    function skipQuestion () {
+      if (currentQ < TOTAL_Q - 1) {
+        currentQ++;
+        showQuestion(currentQ);
+      } else {
+        submitQuiz();
+      }
+    }
+
     /* ── Image picker: cocktail ──────────────────────────── */
     function selectCocktail (el) {
       document.querySelectorAll('#cocktailGrid .img-pick-item').forEach(i => i.classList.remove('selected'));
@@ -1207,6 +1286,7 @@
       $('progressNum').textContent   = `${idx + 1} / ${TOTAL_Q}`;
 
       $('navBack').style.visibility = idx === 0 ? 'hidden' : 'visible';
+      $('navNext').style.display    = idx === 2 ? 'none' : '';
       $('navNextLabel').textContent = idx === TOTAL_Q - 1 ? 'Submit' : 'Continue';
 
       updateSectionLabel(idx);
@@ -1221,9 +1301,7 @@
         case 1:
           if (!$('inputEmail').value.trim()) { $('errEmail').classList.add('show'); return false; }
           return true;
-        case 2:
-          if (selectedDates.length === 0) { $('errDates').classList.add('show'); return false; }
-          return true;
+        case 2: return true;  // handled by rsvpYes/rsvpNo buttons
         case 3: return true;  // dietary — optional
         case 4:
           if (selectedInterests.length === 0) { $('errInterests').classList.add('show'); return false; }
@@ -1597,7 +1675,6 @@
     ═══════════════════════════════════════════════════════ */
     function init () {
       setGroupIntro();
-      buildDates();
       buildChips('chipsInterests',   INTERESTS,      selectedInterests,    7, 'errInterests');
       buildChips('chipsMoreOf',      MORE_OF,        selectedMoreOf,       2, 'errMoreOf');
       buildChips('chipsDinnerStyle', DINNER_STYLES,  selectedDinnerStyle,  1, 'errDinnerStyle');
