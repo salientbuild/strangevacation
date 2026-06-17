@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,7 +9,7 @@
   <meta property="og:title"       content="Les Vacances Étranges" />
   <meta property="og:description" content="An invitation. Answer carefully." />
   <meta property="og:image"       content="https://strangevacation.vercel.app/og-preview.png" />
-  <meta property="og:url"         content="https://strangevacation.vercel.app/vol3-2" />
+  <meta property="og:url"         content="https://strangevacation.vercel.app" />
   <meta property="og:type"        content="website" />
 
   <!-- Twitter / X card -->
@@ -60,7 +60,10 @@
 
     /* ═══════════════════════════════════════════
        HERO IMAGE
+       Replace --hero-src with your image path.
+       Recommended: 1200×600px JPG or WebP.
     ═══════════════════════════════════════════ */
+    /* ── Hero image: full bleed, card overlaps bottom ── */
     .hero-wrap {
       position: relative;
       width: 100%;
@@ -72,6 +75,7 @@
       display: block;
       object-fit: cover;
     }
+    /* linen fade at bottom so card sits flush */
     .hero-wrap::after {
       content: '';
       position: absolute;
@@ -80,6 +84,10 @@
       background: linear-gradient(to bottom, transparent, var(--linen));
       pointer-events: none;
     }
+
+    /* ═══════════════════════════════════════════
+       BODY
+    ═══════════════════════════════════════════ */
 
     /* ═══════════════════════════════════════════
        MAIN LAYOUT
@@ -92,9 +100,10 @@
       flex-direction: column;
       align-items: center;
       padding: 0 1.25rem 5rem;
-      margin-top: -5rem;
+      margin-top: -5rem; /* pull first card up over image fade */
     }
 
+    /* Brand header — sits below hero image */
     .brand-header {
       text-align: center;
       padding: 1.8rem 1rem 0.5rem;
@@ -150,6 +159,7 @@
       margin-top: 2rem;
       position: relative;
     }
+    /* decorative corner rule */
     .invite-card::before {
       content: '';
       position: absolute;
@@ -245,6 +255,7 @@
       position: relative;
     }
 
+    /* Section label above card */
     .quiz-section-label {
       text-align: center;
       font-family: var(--script);
@@ -425,7 +436,7 @@
     .nav-back:hover { color: var(--ink-mid); }
 
     /* ═══════════════════════════════════════════
-       SECTION DIVIDER
+       SECTION DIVIDER — between RSVP & interests
     ═══════════════════════════════════════════ */
     .section-break {
       text-align: center;
@@ -568,28 +579,6 @@
     }
 
     /* ═══════════════════════════════════════════
-       NO-DATE OPTION
-    ═══════════════════════════════════════════ */
-    .no-date-option {
-      text-align: center;
-      margin-top: 1.5rem;
-    }
-    .no-date-btn {
-      background: transparent;
-      border: none;
-      font-family: var(--serif);
-      font-size: 0.85rem;
-      color: var(--ink-soft);
-      cursor: pointer;
-      letter-spacing: 0.04em;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      transition: color 0.2s;
-      padding: 0;
-    }
-    .no-date-btn:hover { color: var(--ink-mid); }
-
-    /* ═══════════════════════════════════════════
        ADMIN TRIGGER
     ═══════════════════════════════════════════ */
     .admin-trigger {
@@ -677,6 +666,7 @@
     }
     .itag.top { border-color: var(--pool); color: var(--pool-pale); }
 
+    /* Date availability summary */
     .date-summary { font-size: 0.82rem; color: rgba(247,243,236,0.7); line-height: 1.8; }
     .date-bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.4rem; }
     .date-bar-label { min-width: 140px; font-size: 0.78rem; color: rgba(247,243,236,0.6); }
@@ -684,10 +674,12 @@
     .date-bar-fill { height: 3px; background: var(--pool); border-radius: 2px; transition: width 0.5s; }
     .date-bar-count { font-size: 0.72rem; color: var(--ink-soft); }
 
+    /* Pairings */
     .pairing { display: flex; align-items: baseline; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid rgba(247,243,236,0.06); font-size: 0.82rem; }
     .pairing-names { color: var(--linen); }
     .pairing-shared { font-size: 0.72rem; color: var(--ink-soft); }
 
+    /* Guest cards */
     .g-cards { display: flex; flex-direction: column; gap: 1.2rem; }
 
     .g-card { border: 1px solid rgba(247,243,236,0.08); perspective: 900px; }
@@ -771,70 +763,10 @@
     }
     .submit-error.show { display: block; }
 
-    /* Skip link */
-    .skip-link {
-      display: inline-block;
-      font-size: 0.72rem;
-      color: var(--ink-soft);
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      margin-top: 1.1rem;
-      opacity: 0.65;
-      transition: opacity 0.2s;
-      user-select: none;
-    }
-    .skip-link:hover { opacity: 1; }
-
     @media (max-width: 480px) {
       .invite-card, .quiz-card, .thanks-card { padding: 1.8rem 1.3rem 1.5rem; }
       .admin-stats { grid-template-columns: 1fr 1fr; }
       .g-detail { flex-direction: column; gap: 0.05rem; }
-    }
-
-    /* ═══════════════════════════════════════════
-       CONTRIBUTION + MENU BLOCK
-    ═══════════════════════════════════════════ */
-    .invite-mini-rule {
-      border: none;
-      border-top: 0.5px solid rgba(155,143,130,0.25);
-      margin: 1.4rem 0;
-    }
-    .invite-contribution-body {
-      font-size: 0.9rem;
-      line-height: 1.85;
-      color: var(--ink-mid);
-      font-weight: 300;
-      font-family: var(--serif);
-      margin-bottom: 0.4rem;
-    }
-    .invite-menu-list {
-      list-style: none;
-      padding: 0;
-      margin: 0.3rem 0 1rem;
-    }
-    .invite-menu-list li {
-      font-size: 0.88rem;
-      color: var(--ink-mid);
-      font-weight: 300;
-      font-family: var(--serif);
-      line-height: 2;
-      padding-left: 1.2rem;
-      position: relative;
-    }
-    .invite-menu-list li::before {
-      content: '—';
-      position: absolute;
-      left: 0;
-      color: var(--ink-soft);
-      font-size: 0.8rem;
-    }
-    .invite-menu-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      margin: 1.2rem 0 0.3rem;
-      font-family: var(--serif);
     }
   </style>
 </head>
@@ -877,37 +809,22 @@
         </div>
 
         <p class="invite-salutation">
-          Dear friend,<span id="groupIntro"></span>
+          Dear friend,<br>
+          <span id="groupIntro"></span>
         </p>
 
         <p class="invite-body">
-          As summer heats up, I'm excited to get back to outdoor dining — one of my favorite ways to gather.<br><br>
-          I'd love for you to join me for an afternoon of casual cocktails, good wine, good food, and a little bit of whimsy (as is tradition).<br><br>
-          My space is cozy, so we'll be dining outdoors — dress accordingly.<br>
-          And if the pool calls your name, bring a suit.<br><br>
-          Along with your RSVP and food preferences, you'll find a few additional questions. I'd be so grateful if you took a moment to complete them. It may take a few minutes, so grab a coffee and enjoy it — it's all part of the fun.<br><br>
-          I can't wait to have you.<br>
-          — Krystal
+          As the summer inches nearer, I am excited to get back to outdoor dining. I would love for you to join for a night of casual cocktails and good food — with a bit of whimsy and fun, as is tradition.<br><br>
+          As my space to host is limited, I'm trying to find the best date among our group. In addition to your availability and food preferences, I would be ever so grateful if you took a moment to answer some additional questions. All in the nature of good fun and whimsy!
         </p>
 
-        <div class="invite-contribution">
-          <hr class="invite-mini-rule" />
-          <p class="invite-contribution-body">Each guest is invited to contribute a <em>petit quelque chose</em>.</p>
-          <ul class="invite-menu-list">
-            <li>A cheese</li>
-            <li>A charcuterie</li>
-            <li>Fine olives</li>
-            <li>A preserve</li>
-            <li>A sweet finish</li>
-          </ul>
-          <p class="invite-contribution-body">Nothing elaborate. Nothing cooked. Just something you love.</p>
-          <p class="invite-menu-label">Sample Menu</p>
-          <ul class="invite-menu-list">
-            <li>Bread &amp; butter</li>
-            <li>Tuna crudo</li>
-            <li>Grilled chicken skewers</li>
-            <li>Petites bouchées from the table</li>
-          </ul>
+        <div class="invite-divider"></div>
+
+        <p class="invite-body" style="font-size:0.88rem; text-align:right; margin-bottom:0.3rem;">
+          With warmth,
+        </p>
+        <div style="text-align:right;">
+          <span class="invite-sign">Krystal</span>
         </div>
 
         <div class="invite-divider"></div>
@@ -925,38 +842,37 @@
       <div class="quiz-card">
         <div class="progress-row">
           <div class="progress-track">
-            <div class="progress-fill" id="progressFill" style="width:8%"></div>
+            <div class="progress-fill" id="progressFill" style="width:9%"></div>
           </div>
           <div class="progress-num" id="progressNum">1 / 13</div>
         </div>
 
-        <!-- Q0: Date selection -->
+        <!-- Q0: Name -->
         <div class="q-block visible" data-q="0">
           <div class="q-num">I.</div>
-          <h2 class="q-text">Which of these dates could work for you?</h2>
-          <p class="q-hint">Select all that apply.</p>
-          <div class="date-grid" id="dateGrid"></div>
-          <div class="f-err" id="errDates">Please select at least one date to continue.</div>
-          <div class="no-date-option">
-            <button class="no-date-btn" onclick="noDatesWork()">None of these dates work for me</button>
-          </div>
-        </div>
-
-        <!-- Q1: Name -->
-        <div class="q-block" data-q="1">
-          <div class="q-num">II.</div>
           <h2 class="q-text">What is your name?</h2>
           <input class="txt-input" type="text" id="inputName" placeholder="First name is fine." autocomplete="given-name"/>
           <div class="f-err" id="errName">A name, please.</div>
         </div>
 
-        <!-- Q2: Email -->
-        <div class="q-block" data-q="2">
-          <div class="q-num">III.</div>
+        <!-- Q1: Email -->
+        <div class="q-block" data-q="1">
+          <div class="q-num">II.</div>
           <h2 class="q-text">And your email?</h2>
           <p class="q-hint">So I can send you the details once a date is confirmed.</p>
           <input class="txt-input" type="email" id="inputEmail" placeholder="yours@somewhere.com" autocomplete="email"/>
           <div class="f-err" id="errEmail">An email helps me reach you.</div>
+        </div>
+
+        <!-- Q2: Dates -->
+        <div class="q-block" data-q="2">
+          <div class="q-num">III.</div>
+          <h2 class="q-text">Which evenings could work for you?</h2>
+          <p class="q-hint">Check all that apply. We'll find the best overlap.</p>
+          <div class="date-grid" id="dateGrid">
+            <!-- Rendered by JS — edit DINNER_DATES array to change options -->
+          </div>
+          <div class="f-err" id="errDates">Please select at least one date.</div>
         </div>
 
         <!-- Q3: Dietary -->
@@ -965,10 +881,9 @@
           <h2 class="q-text">Any food or drink preferences I should know?</h2>
           <p class="q-hint">Allergies, aversions, devotions. Nothing is too specific.</p>
           <input class="txt-input" type="text" id="inputFood" placeholder="e.g. vegetarian, no shellfish, obsessed with natural wine."/>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
-        <!-- Q4: section break + Interests -->
+        <!-- section break — interests start here -->
         <div class="q-block" data-q="4">
           <div class="section-break">
             <div class="section-break-line">A little about you</div>
@@ -978,7 +893,6 @@
           <h2 class="q-text">What are some topics you are known or love to talk about? (choose up to 7)</h2>
           <div class="chip-grid" id="chipsInterests"></div>
           <div class="f-err" id="errInterests">Choose at least one.</div>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
         <!-- Q5: More of -->
@@ -987,8 +901,8 @@
           <h2 class="q-text">What do you want MORE of right now? (pick two)</h2>
           <div class="chip-grid" id="chipsMoreOf"></div>
           <div class="f-err" id="errMoreOf">Choose exactly two.</div>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
+
 
         <!-- Q6: Inkblot picker -->
         <div class="q-block" data-q="6">
@@ -1010,17 +924,15 @@
             </div>
           </div>
           <div class="f-err-img" id="errInkblot">Choose the one that speaks to you.</div>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
-
         <!-- Q7: Dinner style -->
         <div class="q-block" data-q="7">
           <div class="q-num">VIII.</div>
           <h2 class="q-text">At a dinner, you are usually —</h2>
           <div class="chip-grid" id="chipsDinnerStyle"></div>
           <div class="f-err" id="errDinnerStyle">Choose one.</div>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
+
 
         <!-- Q8: Fruit picker -->
         <div class="q-block" data-q="8">
@@ -1042,9 +954,7 @@
             </div>
           </div>
           <div class="f-err-img" id="errFruit">Choose the one that calls to you.</div>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
-
         <!-- Q9: Seatmate -->
         <div class="q-block" data-q="9">
           <div class="q-num">X.</div>
@@ -1052,7 +962,6 @@
           <p class="q-hint">Pick as many as ring true.</p>
           <div class="chip-grid" id="chipsSeatmate"></div>
           <div class="f-err" id="errSeatmate">Choose at least one.</div>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
         <!-- Q10: Shocking fact -->
@@ -1061,8 +970,8 @@
           <h2 class="q-text">What is something that would shock people about you?</h2>
           <p class="q-hint">Optional. The stranger, the better.</p>
           <input class="txt-input" type="text" id="inputShocking" placeholder="Go on, we can handle it."/>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
+
 
         <!-- Q11: Cocktail picker -->
         <div class="q-block" data-q="11">
@@ -1090,16 +999,13 @@
             </div>
           </div>
           <div class="f-err-img" id="errCocktail">Choose your poison.</div>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
-
         <!-- Q12: Network referral -->
         <div class="q-block" data-q="12">
           <div class="q-num">XIII.</div>
           <h2 class="q-text">Is there anyone in your network you think I should meet?</h2>
           <p class="q-hint">Optional. Tell me who and why — I love a good introduction.</p>
           <input class="txt-input" type="text" id="inputReferral" placeholder="Name, and what makes them interesting."/>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
         <!-- Navigation -->
@@ -1124,18 +1030,6 @@
       </div>
     </section>
 
-    <!-- ── SCREEN: DECLINED ── -->
-    <section class="screen" id="screenDeclined">
-      <div class="thanks-card">
-        <span class="thanks-script">À une prochaine fois.</span>
-        <p class="thanks-body">
-          We'll miss you!<br>
-          Hope to see you at the next one.
-        </p>
-        <div class="thanks-footer">Les Vacances Étranges &ensp;·&ensp; Toronto</div>
-      </div>
-    </section>
-
     <!-- Footer wordmark -->
     <footer class="page-footer">
       <span>Vacances Étranges</span>
@@ -1145,20 +1039,32 @@
   </main>
 
   <script>
-    const STORAGE_KEY     = 'lvQuizSubmissions';
-    const SUBMIT_ENDPOINT = '/api/submissions';
+    /* ═══════════════════════════════════════════════════════
+       LES VACANCES ÉTRANGES — GUEST QUIZ
+       ───────────────────────────────────────────────────────
+       To connect to a backend later:
+         Replace localStorage.setItem in saveSubmission()
+         with: fetch(SUBMIT_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(submission) })
 
-    /* ── Dates for this dinner ───────────────────────────── */
+       URL param usage:
+         Share link as: https://yourdomain.com/vacances-quiz.html?group=EMBA+Girls
+         The group name will appear automatically in the invite letter.
+    ═══════════════════════════════════════════════════════ */
+
+    const STORAGE_KEY     = 'lvQuizSubmissions';
+    const SUBMIT_ENDPOINT = '/api/submissions'; // wire this up when ready
+
+    /* ── EDIT THESE DATES BEFORE EACH EVENT ─────────────── */
     const DINNER_DATES = [
-      { value: '2026-06-27', label: 'Saturday, June 27th',   day: 'Sat' },
-      { value: '2026-06-28', label: 'Sunday, June 28th',     day: 'Sun' },
-      { value: '2026-07-01', label: 'Wednesday, July 1st',   day: 'Wed' },
-      { value: '2026-07-11', label: 'Saturday, July 11th',   day: 'Sat' },
-      { value: '2026-07-12', label: 'Sunday, July 12th',     day: 'Sun' },
-      { value: '2026-07-18', label: 'Saturday, July 18th',   day: 'Sat' },
+      { value: '2026-06-13', label: 'Saturday, June 13th',  day: 'Sat' },
+      { value: '2026-06-14', label: 'Sunday, June 14th',    day: 'Sun' },
+      { value: '2026-06-20', label: 'Saturday, June 20th',  day: 'Sat' },
+      { value: '2026-06-21', label: 'Sunday, June 21st',    day: 'Sun' },
+      { value: '2026-06-27', label: 'Saturday, June 27th',  day: 'Sat' },
+      { value: '2026-06-28', label: 'Sunday, June 28th',    day: 'Sun' },
     ];
 
-    /* ── Chip data ───────────────────────────────────────── */
+    /* ── CHIP DATA ───────────────────────────────────────── */
     const INTERESTS = [
       'AI', 'marketing & creative work', 'books', 'food',
       'wine & cocktails', 'fitness', 'investing', 'sports',
@@ -1186,8 +1092,8 @@
     let selectedInterests = [];
     let selectedMoreOf    = [];
     let selectedInkblot   = null;
-    let selectedFruit     = null;
-    let selectedCocktail  = null;
+    let selectedFruit     = null;   // 'orange' | 'lime' | 'raspberry' | 'lemon'
+    let selectedCocktail  = null;   // 'pink-spritz' | 'white-wine' | 'red-wine' | 'beer' | 'margarita' | 'rose'
     let selectedDinnerStyle = [];
     let selectedSeatmate  = [];
 
@@ -1202,7 +1108,7 @@
       const group = getGroupName();
       const el = $('groupIntro');
       if (group) {
-        el.innerHTML = `We've included you among <em style="color:var(--rust)">${group}</em> — a group we're excited to bring together this summer.`;
+        el.innerHTML = `I've included you among <em style="color:var(--rust)">${group}</em> — a group I'm excited to bring together this summer.`;
       } else {
         el.innerHTML = '';
       }
@@ -1218,8 +1124,9 @@
     /* ── Quiz section label ──────────────────────────────── */
     function updateSectionLabel (q) {
       const label = $('quizSectionLabel');
-      if (q <= 3) label.textContent = 'RSVP';
-      else        label.textContent = 'About You';
+      if (q <= 3)      label.textContent = 'RSVP';
+      else if (q === 4) label.textContent = 'About You';
+      else              label.textContent = 'About You';
     }
 
     /* ── Build date checkboxes ───────────────────────────── */
@@ -1244,11 +1151,6 @@
         });
         grid.appendChild(item);
       });
-    }
-
-    /* ── No dates available ──────────────────────────────── */
-    function noDatesWork () {
-      showScreen('screenDeclined');
     }
 
     /* ── Build chip groups ───────────────────────────────── */
@@ -1276,7 +1178,7 @@
       });
     }
 
-    /* ── Image pickers ───────────────────────────────────── */
+    /* ── Image picker: inkblot ───────────────────────────── */
     function selectInkblot (el) {
       document.querySelectorAll('#inkblotGrid .img-pick-item').forEach(i => i.classList.remove('selected'));
       el.classList.add('selected');
@@ -1284,6 +1186,7 @@
       $('errInkblot').classList.remove('show');
     }
 
+    /* ── Image picker: fruit ─────────────────────────────── */
     function selectFruit (el) {
       document.querySelectorAll('#fruitGrid .img-pick-item').forEach(i => i.classList.remove('selected'));
       el.classList.add('selected');
@@ -1291,21 +1194,12 @@
       $('errFruit').classList.remove('show');
     }
 
+    /* ── Image picker: cocktail ──────────────────────────── */
     function selectCocktail (el) {
       document.querySelectorAll('#cocktailGrid .img-pick-item').forEach(i => i.classList.remove('selected'));
       el.classList.add('selected');
       selectedCocktail = el.dataset.cocktail;
       $('errCocktail').classList.remove('show');
-    }
-
-    /* ── Skip question ───────────────────────────────────── */
-    function skipQuestion () {
-      if (currentQ < TOTAL_Q - 1) {
-        currentQ++;
-        showQuestion(currentQ);
-      } else {
-        submitQuiz();
-      }
     }
 
     /* ── Show question ───────────────────────────────────── */
@@ -1318,7 +1212,7 @@
       $('progressNum').textContent   = `${idx + 1} / ${TOTAL_Q}`;
 
       $('navBack').style.visibility = idx === 0 ? 'hidden' : 'visible';
-      $('navNextLabel').textContent  = idx === TOTAL_Q - 1 ? 'Submit' : 'Continue';
+      $('navNextLabel').textContent = idx === TOTAL_Q - 1 ? 'Submit' : 'Continue';
 
       updateSectionLabel(idx);
     }
@@ -1327,13 +1221,13 @@
     function validate () {
       switch (currentQ) {
         case 0:
-          if (selectedDates.length === 0) { $('errDates').classList.add('show'); return false; }
-          return true;
-        case 1:
           if (!$('inputName').value.trim()) { $('errName').classList.add('show'); return false; }
           return true;
-        case 2:
+        case 1:
           if (!$('inputEmail').value.trim()) { $('errEmail').classList.add('show'); return false; }
+          return true;
+        case 2:
+          if (selectedDates.length === 0) { $('errDates').classList.add('show'); return false; }
           return true;
         case 3: return true;  // dietary — optional
         case 4:
@@ -1385,7 +1279,7 @@
     });
 
     /* ═══════════════════════════════════════════════════════
-       POETIC READING
+       POETIC READING — 80–120 words, impressionistic
     ═══════════════════════════════════════════════════════ */
     function generateReading ({ selectedInterests, selectedMoreOf, dinnerStyle, shockingFact }) {
       const i1 = selectedInterests[0] || 'ideas';
@@ -1393,6 +1287,7 @@
       const w1 = selectedMoreOf[0]    || 'connection';
       const w2 = selectedMoreOf[1]    || 'beauty';
       const st = dinnerStyle[0]       || 'the observer';
+      const sf = shockingFact         || 'more than meets the eye';
 
       const opens = [
         `There is something particular about people drawn to ${i1} — a quality of restlessness that sits quietly in a room.`,
@@ -1414,7 +1309,7 @@
       return opens[seed] + mids[(seed + 1) % 3] + ends[(seed + 2) % 3];
     }
 
-    function generateSpark ({ selectedInterests }) {
+    function generateSpark ({ selectedInterests, shockingFact }) {
       const sparks = [
         `Ask: what's the most interesting thing you've changed your mind about lately?`,
         `Open with: I heard you know something about ${selectedInterests[0] || 'this'}.`,
@@ -1427,6 +1322,13 @@
 
     /* ═══════════════════════════════════════════════════════
        SUBMISSION
+       ─────────────────────────────────────────────────────
+       BACKEND HOOK: swap the localStorage block below for:
+         await fetch(SUBMIT_ENDPOINT, {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify(submission)
+         });
     ═══════════════════════════════════════════════════════ */
     async function submitQuiz () {
       const btn     = $('navNext');
@@ -1491,19 +1393,24 @@
     function renderAdmin () {
       const subs = getSubs();
 
+      /* Interest frequency */
       const iCount = {};
       subs.forEach(s => (s.selectedInterests||[]).forEach(i => {
         iCount[i] = (iCount[i]||0) + 1;
       }));
       const topI = Object.entries(iCount).sort((a,b) => b[1]-a[1]).slice(0,10);
 
+      /* Date availability */
       const dateCount = {};
       subs.forEach(s => (s.availableDates||[]).forEach(d => {
         dateCount[d] = (dateCount[d]||0) + 1;
       }));
+      const maxDateCount = Math.max(...Object.values(dateCount), 1);
 
+      /* Best date(s) */
       const bestDate = Object.entries(dateCount).sort((a,b)=>b[1]-a[1])[0];
 
+      /* Pairings */
       const pairings = [];
       for (let i=0; i<subs.length; i++) {
         for (let j=i+1; j<subs.length; j++) {
@@ -1513,6 +1420,7 @@
       }
 
       $('adminContent').innerHTML = `
+        <!-- Stats -->
         <div class="admin-stats">
           <div class="stat-box">
             <span class="stat-num">${subs.length}</span>
@@ -1528,6 +1436,7 @@
           </div>
         </div>
 
+        <!-- Date availability -->
         <div class="a-section">Date availability</div>
         <div>
           ${DINNER_DATES.map(d => {
@@ -1541,6 +1450,7 @@
           }).join('')}
         </div>
 
+        <!-- Top interests -->
         <div class="a-section">Most common interests</div>
         <div>
           ${topI.map(([name,count],i) =>
@@ -1548,6 +1458,7 @@
           ).join('') || '<span style="color:var(--ink-soft);font-size:0.8rem;">No data yet.</span>'}
         </div>
 
+        <!-- Pairings -->
         <div class="a-section">Suggested pairings (2+ shared interests)</div>
         <div>
           ${pairings.length
@@ -1558,6 +1469,7 @@
             : '<span style="color:var(--ink-soft);font-size:0.8rem;">Need 2+ responses.</span>'}
         </div>
 
+        <!-- Guest cards -->
         <div class="a-section">Guest cards</div>
         <div class="g-cards">
           ${subs.length
@@ -1565,6 +1477,7 @@
             : '<span style="color:var(--ink-soft);font-size:0.8rem;">No guests yet.</span>'}
         </div>
 
+        <!-- All responses -->
         <div class="a-section">All responses</div>
         <div>
           ${subs.map(s => `
@@ -1589,6 +1502,7 @@
           `).join('')||'<span style="color:var(--ink-soft);font-size:0.8rem;">Empty.</span>'}
         </div>
 
+        <!-- Actions -->
         <div class="a-section">Actions</div>
         <div class="admin-actions">
           <button class="btn btn-ghost" id="exportCsv">Export CSV</button>
@@ -1596,6 +1510,7 @@
         </div>
       `;
 
+      /* Flip card listeners */
       document.querySelectorAll('.flip-btn').forEach(btn => {
         btn.addEventListener('click', () => btn.closest('.g-card').classList.toggle('flipped'));
       });
@@ -1613,16 +1528,18 @@
       return `<div class="g-detail"><span class="g-dlabel">${label}</span><span class="g-dval">${value}</span></div>`;
     }
 
+    /* ── Guest card with CSS citrus-pool front art ────────── */
     function buildGuestCard (s) {
       const seed  = (s.name||'x').charCodeAt(0);
       const hue1  = (seed * 37) % 360;
       const hue2  = (seed * 73 + 120) % 360;
+      /* pool-teal blobs with a citrus accent */
       const blobs = [
         { x:30, y:45, w:90, h:70,  c:`hsla(${180+seed%40},55%,55%,0.25)` },
         { x:70, y:45, w:90, h:70,  c:`hsla(${180+seed%40},55%,55%,0.25)` },
         { x:50, y:30, w:60, h:55,  c:`hsla(${hue1},50%,60%,0.18)` },
         { x:50, y:65, w:50, h:40,  c:`hsla(${hue2},55%,55%,0.15)` },
-        { x:20, y:70, w:40, h:35,  c:`hsla(45,70%,60%,0.2)` },
+        { x:20, y:70, w:40, h:35,  c:`hsla(45,70%,60%,0.2)` },   /* citrus accent */
         { x:80, y:70, w:40, h:35,  c:`hsla(45,70%,60%,0.2)` },
       ];
 
@@ -1657,6 +1574,7 @@
 
     /* ═══════════════════════════════════════════════════════
        CSV EXPORT
+       Add new fields here as the schema grows.
     ═══════════════════════════════════════════════════════ */
     function exportCSV (subs) {
       const headers = [
@@ -1690,8 +1608,11 @@
       buildChips('chipsDinnerStyle', DINNER_STYLES,  selectedDinnerStyle,  1, 'errDinnerStyle');
       buildChips('chipsSeatmate',    SEATMATE_TRAITS,selectedSeatmate,     8, 'errSeatmate');
 
+      /* Clear errors on type */
+      ['inputName'].forEach(id => {
+        $(id).addEventListener('input', () => $('err'+id.replace('input','')).classList.remove('show'));
+      });
       $('inputEmail').addEventListener('input', () => $('errEmail').classList.remove('show'));
-      $('inputName').addEventListener('input', () => $('errName').classList.remove('show'));
     }
 
     document.addEventListener('DOMContentLoaded', init);
