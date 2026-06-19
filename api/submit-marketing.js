@@ -36,7 +36,6 @@ export default async function handler (req) {
     'Dietary Notes':         data.foodDrinkPreferences || '',
     'Marketing Focus':       Array.isArray(data.marketingFocus) ? data.marketingFocus.join(', ') : '',
     'Marketing Hill':        data.marketingHill || '',
-    'Dinner':                data.dinnerTag || '',
     'Interests':             Array.isArray(data.selectedInterests) ? data.selectedInterests.join(', ') : '',
     'Wants More Of':         Array.isArray(data.desiredMoreOf) ? data.desiredMoreOf.join(', ') : '',
     'Ink blot choice':       data.inkblotChoice || '',
