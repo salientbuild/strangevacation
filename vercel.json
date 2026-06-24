@@ -7,6 +7,7 @@
     { "src": "/vol3-2",   "dest": "/vol3-2.html" },
     { "src": "/vol3-3",   "dest": "/vol3-3.html" },
     { "src": "/vol3-4",   "dest": "/vol3-4.html" },
+    { "src": "/vol3-5",   "dest": "/vol3-5.html" },
     { "src": "/",         "dest": "/index.html" },
     { "src": "/(.*)",     "dest": "/$1" }
   ]
