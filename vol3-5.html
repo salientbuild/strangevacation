@@ -1204,6 +1204,10 @@
           throw new Error(body?.error || `HTTP ${res.status}`);
         }
 
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        stored.push(submission);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
+
         showScreen('screenThanks');
       } catch (err) {
         console.error('[submit-chef] submit failed:', err);

@@ -45,6 +45,7 @@ export default async function handler (req) {
     'Ideal Neighbour':  join(data.preferredSeatmateTraits),
     'Shocking Fact':    data.shockingFact              || '',
     'Cocktail Choice':  data.cocktailChoice            || '',
+    'Bottle Bringing':  data.bottleBringing            || '',
     'Network Referral': data.networkReferral           || '',
   };
 
