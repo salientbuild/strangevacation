@@ -705,7 +705,7 @@
           <div class="progress-track">
             <div class="progress-fill" id="progressFill" style="width:7%"></div>
           </div>
-          <div class="progress-num" id="progressNum">1 / 14</div>
+          <div class="progress-num" id="progressNum">1 / 13</div>
         </div>
 
         <!-- Q0: Date selection -->
@@ -851,18 +851,9 @@
           <div class="skip-link" onclick="skipQuestion()">skip →</div>
         </div>
 
-        <!-- Q12: What are you bringing -->
+        <!-- Q12: Referral -->
         <div class="q-block" data-q="12">
           <div class="q-num">XIII.</div>
-          <h2 class="q-text">What bottle are you bringing?</h2>
-          <p class="q-hint">Optional. It's BYOB — tell me what you're planning to pour.</p>
-          <input class="txt-input" type="text" id="inputBottle" placeholder="e.g. a Burgundy, whatever's in the fridge, something fizzy."/>
-          <div class="skip-link" onclick="skipQuestion()">skip →</div>
-        </div>
-
-        <!-- Q13: Referral -->
-        <div class="q-block" data-q="13">
-          <div class="q-num">XIV.</div>
           <h2 class="q-text">Is there anyone in your network you think I should meet?</h2>
           <p class="q-hint">Optional. Tell me who and why — I love a good introduction.</p>
           <input class="txt-input" type="text" id="inputReferral" placeholder="Name, and what makes them interesting."/>
@@ -940,7 +931,7 @@
     ];
 
     let currentQ          = 0;
-    const TOTAL_Q         = 14;
+    const TOTAL_Q         = 13;
     let selectedDates     = [];
     let selectedInterests = [];
     let selectedMoreOf    = [];
@@ -1093,8 +1084,7 @@
           return true;
         case 10: return true;  // shocking — optional
         case 11: return true;  // cocktail — optional
-        case 12: return true;  // bottle — optional
-        case 13: return true;  // referral — optional
+        case 12: return true;  // referral — optional
         default: return true;
       }
     }
@@ -1185,7 +1175,6 @@
           preferredSeatmateTraits: [...selectedSeatmate],
           shockingFact:            $('inputShocking').value.trim(),
           cocktailChoice:          selectedCocktail || '',
-          bottleBringing:          $('inputBottle').value.trim(),
           networkReferral:         $('inputReferral').value.trim(),
           generatedReading:        generateReading({ selectedInterests, selectedMoreOf, dinnerStyle: selectedDinnerStyle }),
           conversationSpark:       generateSpark({ selectedInterests }),
@@ -1310,7 +1299,6 @@
               ${dr('Ideal neighbour', (s.preferredSeatmateTraits||[]).join(', ')||'—')}
               ${dr('Shocking fact', s.shockingFact||'—')}
               ${dr('Cocktail', s.cocktailChoice||'—')}
-              ${dr('Bottle bringing', s.bottleBringing||'—')}
               ${dr('Network referral', s.networkReferral||'—')}
             </div>
           `).join('')||'<span style="color:var(--ink-soft);font-size:0.8rem;">Empty.</span>'}
@@ -1376,7 +1364,7 @@
         'selectedInterests','desiredMoreOf',
         'inkblotChoice','fruitChoice','dinnerStyle',
         'preferredSeatmateTraits','shockingFact','cocktailChoice',
-        'bottleBringing','networkReferral','generatedReading','conversationSpark'
+        'networkReferral','generatedReading','conversationSpark'
       ];
       const rows = subs.map(s => headers.map(h => {
         const v = Array.isArray(s[h]) ? s[h].join(' | ') : (s[h]||'');
