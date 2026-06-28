@@ -32,7 +32,6 @@ export default async function handler (req) {
   const fields = {
     'Submitted At':     data.createdAt                 || new Date().toISOString(),
     'Group':            data.group                     || '',
-    'Dinner Tag':       data.dinnerTag                 || 'Vol 3.5 - Visiting Chef Edition',
     'Name':             data.name                      || '',
     'Email':            data.email                     || '',
     'Dinner Dates':     join(data.availableDates),
